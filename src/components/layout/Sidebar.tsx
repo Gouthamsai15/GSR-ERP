@@ -1,0 +1,308 @@
+import { useEffect, useMemo, useState } from "react";
+import { sidebarItems, type SidebarItem as SidebarConfigItem } from "../../config/sidebar";
+import { ROLES } from "../../config/roles";
+import { getWorkspaceLabel, normalizeStaffWorkspace, STAFF_WORKSPACES, type StaffWorkspace } from "../../config/staffWorkspaces";
+import { getStaffByUserId } from "../../services/adminService";
+import { authStore } from "../../store/authStore";
+import SidebarItem from "./SidebarItem";
+
+type SidebarProps = {
+  open: boolean;
+  onClose: () => void;
+};
+
+const roleLabels = {
+  [ROLES.SUPER_ADMIN]: "Super Admin",
+  [ROLES.ADMIN]: "School Admin",
+  [ROLES.PRINCIPAL]: "Principal",
+  [ROLES.PARENT]: "Parent",
+  [ROLES.STAFF]: "Teacher",
+  [ROLES.STUDENT]: "Student",
+};
+
+const sectionDefinitions = [
+  {
+    title: "Overview",
+    match: (path: string) => ["/dashboard/home", "/dashboard/analytics", "/dashboard/hr", "/dashboard/accounts", "/dashboard/transport", "/dashboard/admission"].includes(path),
+  },
+  {
+    title: "Leadership",
+    match: (path: string) =>
+      ["/principal/dashboard", "/principal/analytics", "/principal/attendance", "/principal/report-cards", "/principal/approvals", "/principal/discipline"].includes(path),
+  },
+  {
+    title: "Community",
+    match: (path: string) => ["/principal/students", "/principal/staff"].includes(path),
+  },
+  {
+    title: "Account",
+    match: (path: string) => ["/principal/profile", "/principal/settings"].includes(path),
+  },
+  {
+    title: "Academic",
+    match: (path: string) =>
+      ["/dashboard/students", "/dashboard/staff", "/dashboard/classes", "/dashboard/subjects", "/dashboard/timetable", "/dashboard/timetable/coordinator", "/dashboard/timetable/my", "/dashboard/attendance", "/dashboard/exams", "/dashboard/results", "/dashboard/report-cards", "/dashboard/holidays"].includes(path),
+  },
+  {
+    title: "Operations",
+    match: (path: string) =>
+      ["/dashboard/applicants", "/dashboard/employees", "/dashboard/staff-attendance", "/dashboard/my-attendance", "/dashboard/leaves", "/dashboard/fees", "/dashboard/salary", "/dashboard/vehicles", "/dashboard/routes", "/dashboard/notifications"].includes(path),
+  },
+  {
+    title: "Administration",
+    match: (path: string) =>
+      ["/dashboard/subscription", "/dashboard/platform-payments", "/dashboard/billing-history", "/dashboard/invoices", "/dashboard/renewal-reminders", "/dashboard/plan-upgrade", "/dashboard/usage", "/dashboard/school-billing-profile", "/dashboard/child", "/dashboard/profile", "/dashboard/audit-logs", "/dashboard/settings"].includes(path),
+  },
+];
+
+const groupItems = (items: SidebarConfigItem[]) => {
+  const used = new Set<string>();
+
+  const grouped = sectionDefinitions
+    .map((section) => ({
+      title: section.title,
+      items: items.filter((item) => {
+        const match = section.match(item.path);
+        if (match) used.add(item.path);
+        return match;
+      }),
+    }))
+    .filter((section) => section.items.length > 0);
+
+  const uncategorized = items.filter((item) => !used.has(item.path));
+  if (uncategorized.length > 0) {
+    grouped.push({ title: "More", items: uncategorized });
+  }
+
+  return grouped;
+};
+
+export const Sidebar = ({ open, onClose }: SidebarProps) => {
+  const { role, user, school } = authStore();
+  const [isCoordinator, setIsCoordinator] = useState(false);
+  const [staffWorkspace, setStaffWorkspace] = useState<StaffWorkspace>(STAFF_WORKSPACES.TEACHER);
+
+  useEffect(() => {
+    let active = true;
+
+    if (role !== ROLES.STAFF || !user?.id) {
+      setIsCoordinator(false);
+      setStaffWorkspace(STAFF_WORKSPACES.TEACHER);
+      return () => {
+        active = false;
+      };
+    }
+
+    void (async () => {
+      try {
+        const staff = await getStaffByUserId(user.id);
+        if (active) {
+          setIsCoordinator(Boolean(staff?.isClassCoordinator));
+          setStaffWorkspace(normalizeStaffWorkspace(staff?.role));
+        }
+      } catch {
+        if (active) {
+          setIsCoordinator(false);
+          setStaffWorkspace(STAFF_WORKSPACES.TEACHER);
+        }
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [role, user?.id]);
+
+  const items = useMemo(() => {
+    if (role === ROLES.SUPER_ADMIN) {
+      return [
+        { icon: "DB", label: "Dashboard", path: "/super-admin/dashboard", description: "Platform-level SaaS metrics and revenue visibility.", roles: [ROLES.SUPER_ADMIN] },
+        { icon: "BD", label: "Board", path: "/super-admin/boards", description: "Create and manage academic boards.", roles: [ROLES.SUPER_ADMIN] },
+        { icon: "ST", label: "Schools", path: "/super-admin/schools", description: "Create and manage tenant schools.", roles: [ROLES.SUPER_ADMIN] },
+        { icon: "AC", label: "Billing", path: "/super-admin/billing", description: "Manage subscriptions and renewals.", roles: [ROLES.SUPER_ADMIN] },
+        { icon: "FE", label: "Payments", path: "/super-admin/payments", description: "Review all platform payments.", roles: [ROLES.SUPER_ADMIN] },
+        { icon: "DR", label: "Storage", path: "/super-admin/storage", description: "Track school storage usage and limits.", roles: [ROLES.SUPER_ADMIN] },
+        { icon: "LG", label: "Audit Logs", path: "/super-admin/audit-logs", description: "Review super admin action history.", roles: [ROLES.SUPER_ADMIN] },
+      ];
+    }
+
+    if (role === ROLES.PRINCIPAL) {
+      return [
+        { icon: "DB", label: "Dashboard", path: "/principal/dashboard", description: "Executive overview of attendance, performance, and approvals.", roles: [ROLES.PRINCIPAL] },
+        { icon: "AN", label: "Analytics", path: "/principal/analytics", description: "School-wide attendance and academic trend analysis.", roles: [ROLES.PRINCIPAL] },
+        { icon: "ST", label: "Students", path: "/principal/students", description: "View student records, class groups, and performance indicators.", roles: [ROLES.PRINCIPAL] },
+        { icon: "SF", label: "Staff", path: "/principal/staff", description: "Review staff directory, workload, and status visibility.", roles: [ROLES.PRINCIPAL] },
+        { icon: "AT", label: "Attendance", path: "/principal/attendance", description: "Monitor class-wise attendance performance and risk areas.", roles: [ROLES.PRINCIPAL] },
+        { icon: "RC", label: "Report Card", path: "/principal/report-cards", description: "Generate individual and class-wise report cards.", roles: [ROLES.PRINCIPAL] },
+        { icon: "RS", label: "Results", path: "/dashboard/results", description: "Open class-wise results and export student result PDFs.", roles: [ROLES.PRINCIPAL] },
+        { icon: "LV", label: "Approvals", path: "/principal/approvals", description: "Handle leave and admission approval decisions.", roles: [ROLES.PRINCIPAL] },
+        { icon: "LG", label: "Discipline", path: "/principal/discipline", description: "Review low-attendance and student concern signals.", roles: [ROLES.PRINCIPAL] },
+        { icon: "PF", label: "Profile", path: "/principal/profile", description: "View principal account details and access context.", roles: [ROLES.PRINCIPAL] },
+        { icon: "SE", label: "Settings", path: "/principal/settings", description: "Review principal session and workspace settings.", roles: [ROLES.PRINCIPAL] },
+      ];
+    }
+
+    const filtered = sidebarItems.filter((item) => (role ? item.roles.includes(role) : false));
+
+    if (role !== ROLES.STAFF) {
+      return filtered;
+    }
+
+    if (staffWorkspace === STAFF_WORKSPACES.HR) {
+      return [
+        { icon: "AN", label: "Analytics", path: "/dashboard/analytics", description: "Monitor workforce and school operations.", roles: [ROLES.STAFF] },
+        { icon: "HR", label: "HR Dashboard", path: "/dashboard/hr", description: "Employee, leave, and people operations.", roles: [ROLES.STAFF] },
+        { icon: "EM", label: "Employees", path: "/dashboard/employees", description: "Manage staff and employee records.", roles: [ROLES.STAFF] },
+        { icon: "SA", label: "Staff Attendance", path: "/dashboard/staff-attendance", description: "Mark daily attendance and review monthly staff records.", roles: [ROLES.STAFF] },
+        { icon: "MY", label: "My Attendance", path: "/dashboard/my-attendance", description: "Review the attendance HR has marked for your account.", roles: [ROLES.STAFF] },
+        { icon: "LV", label: "Leaves", path: "/dashboard/leaves", description: "Approve and track leave requests.", roles: [ROLES.STAFF] },
+      ];
+    }
+
+    if (staffWorkspace === STAFF_WORKSPACES.ACCOUNTS) {
+      return [
+        { icon: "AN", label: "Analytics", path: "/dashboard/analytics", description: "Track collections and finance trends.", roles: [ROLES.STAFF] },
+        { icon: "AC", label: "Accounts Dashboard", path: "/dashboard/accounts", description: "Fee and salary operations workspace.", roles: [ROLES.STAFF] },
+        { icon: "FE", label: "Fees", path: "/dashboard/fees", description: "Review and record fee payments.", roles: [ROLES.STAFF] },
+        { icon: "SL", label: "Salary", path: "/dashboard/salary", description: "Manage salary disbursement records.", roles: [ROLES.STAFF] },
+        { icon: "MY", label: "My Attendance", path: "/dashboard/my-attendance", description: "Review the attendance HR has marked for your account.", roles: [ROLES.STAFF] },
+        { icon: "NT", label: "Notifications", path: "/dashboard/notifications", description: "Fee reminders and workflow notifications.", roles: [ROLES.STAFF] },
+      ];
+    }
+
+    if (staffWorkspace === STAFF_WORKSPACES.TRANSPORT) {
+      return [
+        { icon: "AN", label: "Analytics", path: "/dashboard/analytics", description: "Monitor fleet and route operations.", roles: [ROLES.STAFF] },
+        { icon: "TR", label: "Transport Dashboard", path: "/dashboard/transport", description: "Vehicle and route operations workspace.", roles: [ROLES.STAFF] },
+        { icon: "VH", label: "Vehicles", path: "/dashboard/vehicles", description: "Manage the school vehicle fleet.", roles: [ROLES.STAFF] },
+        { icon: "RT", label: "Routes", path: "/dashboard/routes", description: "Manage routes and stop assignments.", roles: [ROLES.STAFF] },
+        { icon: "MY", label: "My Attendance", path: "/dashboard/my-attendance", description: "Review the attendance HR has marked for your account.", roles: [ROLES.STAFF] },
+      ];
+    }
+
+    if (staffWorkspace === STAFF_WORKSPACES.ADMISSION) {
+      return [
+        { icon: "AN", label: "Analytics", path: "/dashboard/analytics", description: "Monitor admission funnel and school operations.", roles: [ROLES.STAFF] },
+        { icon: "AD", label: "Admission Dashboard", path: "/dashboard/admission", description: "Admission pipeline and applicant approvals.", roles: [ROLES.STAFF] },
+        { icon: "AP", label: "Applicants", path: "/dashboard/applicants", description: "Review, approve, and reject applicants.", roles: [ROLES.STAFF] },
+        { icon: "ST", label: "Students", path: "/dashboard/students", description: "Create student records after admission approval.", roles: [ROLES.STAFF] },
+        { icon: "MY", label: "My Attendance", path: "/dashboard/my-attendance", description: "Review the attendance HR has marked for your account.", roles: [ROLES.STAFF] },
+      ];
+    }
+
+    const withoutTimetable = filtered.filter((item) => item.path !== "/dashboard/timetable");
+    const timetableItems: SidebarConfigItem[] = isCoordinator
+      ? [
+          { icon: "RC", label: "Report Card", path: "/dashboard/report-cards", description: "Generate report cards for your assigned class.", roles: [ROLES.STAFF] },
+          { icon: "CT", label: "Coordinator Timetable", path: "/dashboard/timetable/coordinator", description: "Manage your assigned class timetable.", roles: [ROLES.STAFF] },
+          { icon: "MT", label: "My Teaching Timetable", path: "/dashboard/timetable/my", description: "View the periods assigned to you.", roles: [ROLES.STAFF] },
+        ]
+      : [
+          { icon: "TT", label: "Timetable", path: "/dashboard/timetable/my", description: "View your teaching timetable.", roles: [ROLES.STAFF] },
+        ];
+
+    return [
+      ...withoutTimetable.filter((item) => item.path !== "/dashboard/notifications"),
+      { icon: "NT", label: "Notifications", path: "/dashboard/notifications", description: "Review leave and workflow alerts.", roles: [ROLES.STAFF] },
+      { icon: "MY", label: "My Attendance", path: "/dashboard/my-attendance", description: "Review the attendance HR has marked for your account.", roles: [ROLES.STAFF] },
+      { icon: "LV", label: "Leaves", path: "/dashboard/leaves", description: "Request leave and track approval stages.", roles: [ROLES.STAFF] },
+      ...timetableItems,
+    ];
+  }, [isCoordinator, role, staffWorkspace]);
+
+  const groupedItems = useMemo(() => groupItems(items), [items]);
+  const roleLabel = role === ROLES.STAFF ? getWorkspaceLabel(staffWorkspace) : role ? roleLabels[role] : "User";
+  const isSuperAdminArea = role === ROLES.SUPER_ADMIN;
+
+  if (isSuperAdminArea) {
+    return (
+      <>
+        <div
+          className={`fixed inset-0 z-30 bg-slate-950/60 transition md:hidden ${open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+          onClick={onClose}
+        />
+        <aside
+          className={`layout-sidebar fixed bottom-3 left-3 top-3 z-40 flex w-[calc(100vw-1.5rem)] max-w-[320px] flex-col rounded-[1.25rem] border transition-transform duration-300 md:bottom-0 md:left-0 md:top-0 md:h-screen md:w-[304px] md:max-w-none md:rounded-none md:border-r md:translate-x-0 ${
+            open ? "translate-x-0" : "-translate-x-[110%]"
+          }`}
+        >
+          <div className="layout-sidebar-brand px-4 py-5 sm:px-5 sm:py-6">
+            <div className="flex items-center gap-3">
+              <div className="layout-brand-mark">G</div>
+              <div className="min-w-0">
+                <p className="text-xs uppercase tracking-[0.28em] text-cyan-300">GSR ERP</p>
+                <h2 className="truncate text-lg font-semibold text-slate-50">{roleLabel} Workspace</h2>
+              </div>
+            </div>
+            <div className="layout-sidebar-profile mt-5 rounded-2xl px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-300">Signed in as</p>
+              <p className="mt-2 truncate text-sm font-semibold text-slate-50">{user?.name ?? "ERP User"}</p>
+              <p className="mt-2 text-xs leading-5 text-slate-300">
+                Control tenant growth, billing, storage, and platform governance from one executive workspace.
+              </p>
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-4 sm:py-5">
+            <div className="space-y-2">
+              {items.map((item) => (
+                <SidebarItem
+                  key={item.path}
+                  icon={item.icon}
+                  label={item.label}
+                  path={item.path}
+                  description={item.description}
+                  onClick={onClose}
+                />
+              ))}
+            </div>
+          </div>
+        </aside>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div
+        className={`fixed inset-0 z-30 bg-slate-950/40 transition md:hidden ${open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        onClick={onClose}
+      />
+
+      <aside
+        className={`layout-sidebar fixed bottom-3 left-3 top-3 z-40 flex w-[calc(100vw-1.5rem)] max-w-[324px] flex-col rounded-[1.25rem] border text-slate-900 transition-transform duration-300 md:bottom-0 md:left-0 md:top-0 md:h-screen md:w-[304px] md:max-w-none md:rounded-none md:border-r md:translate-x-0 ${open ? "translate-x-0" : "-translate-x-[110%]"}`}
+      >
+        <div className="layout-sidebar-brand px-5 py-5">
+          <div className="flex items-center gap-3">
+            <div className="layout-brand-mark">G</div>
+            <div className="min-w-0">
+              <h2 className="truncate text-lg font-semibold text-slate-950">{school?.name ?? "GSR ERP"}</h2>
+            </div>
+          </div>
+
+          <div className="layout-sidebar-profile mt-5 rounded-[1rem] p-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">Workspace</p>
+            <p className="mt-2 text-sm font-semibold text-slate-900">{roleLabel}</p>
+            <p className="mt-1 text-sm text-slate-500">{user?.name ?? "ERP User"}</p>
+          </div>
+        </div>
+
+        <div className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
+          {groupedItems.map((section) => (
+            <div key={section.title}>
+              <p className="layout-section-label mb-3 px-2 text-[11px] font-semibold uppercase tracking-[0.24em]">
+                {section.title}
+              </p>
+              <div className="space-y-2">
+                {section.items.map((item) => (
+                  <SidebarItem key={item.path} icon={item.icon} label={item.label} path={item.path} description={item.description} onClick={onClose} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </aside>
+    </>
+  );
+};
+
+export default Sidebar;

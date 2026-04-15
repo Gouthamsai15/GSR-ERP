@@ -1,0 +1,29 @@
+<svg width="2732" height="2732" viewBox="0 0 2732 2732" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="2732" height="2732" fill="#020617" />
+  <circle cx="1366" cy="820" r="520" fill="url(#halo)" fill-opacity="0.74" />
+  <rect x="760" y="700" width="1212" height="1332" rx="260" fill="url(#card)" />
+  <path d="M1730.52 1022.2C1643.24 894.112 1496.65 816 1322 816C1052.64 816 834.333 1034.31 834.333 1303.67C834.333 1573.03 1052.64 1791.33 1322 1791.33C1533.76 1791.33 1714.04 1656.3 1780.8 1467.47H1459.86V1262.8H1817.81C1830.68 1325.93 1828.86 1392.09 1812.49 1456.17C1749.18 1704.19 1554.68 1886.67 1322 1886.67C1000.03 1886.67 739 1625.64 739 1303.67C739 981.694 1000.03 720.667 1322 720.667C1548.26 720.667 1744.49 849.545 1841.78 1038.03L1730.52 1022.2Z" fill="url(#letterMain)" />
+  <path d="M1459.86 1262.8H1817.81C1827.32 1309.42 1829.25 1357.25 1823.61 1404.47H1459.86V1262.8Z" fill="url(#crossbar)" />
+  <path d="M1761.35 1476.85C1691.11 1628.89 1537.17 1732.22 1359.15 1732.22C1111.82 1732.22 911.371 1531.77 911.371 1284.44C911.371 1037.11 1111.82 836.666 1359.15 836.666C1519.7 836.666 1660.49 921.161 1739.33 1048.08L1648.51 1109.11C1585.67 1007.24 1478.26 940.266 1355.15 940.266C1163.52 940.266 1008.57 1095.21 1008.57 1286.84C1008.57 1478.46 1163.52 1633.41 1355.15 1633.41C1482.51 1633.41 1593.87 1564.31 1653.85 1461.61L1761.35 1476.85Z" fill="#F8FAFC" fill-opacity="0.18" />
+  <path d="M1076 2204H1656" stroke="#38BDF8" stroke-width="34" stroke-linecap="round" stroke-opacity="0.65" />
+  <path d="M1188 2338H1544" stroke="#67E8F9" stroke-width="24" stroke-linecap="round" stroke-opacity="0.5" />
+  <defs>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1366 820) rotate(90) scale(520)">
+      <stop stop-color="#22D3EE" />
+      <stop offset="1" stop-color="#020617" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="card" x1="866" y1="786" x2="1866" y2="1946" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A" />
+      <stop offset="1" stop-color="#082F49" />
+    </linearGradient>
+    <linearGradient id="letterMain" x1="808" y1="720.667" x2="1858" y2="1902" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" />
+      <stop offset="0.48" stop-color="#E0F2FE" />
+      <stop offset="1" stop-color="#A5F3FC" />
+    </linearGradient>
+    <linearGradient id="crossbar" x1="1459.86" y1="1262.8" x2="1817.81" y2="1404.47" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7DD3FC" />
+      <stop offset="1" stop-color="#22D3EE" />
+    </linearGradient>
+  </defs>
+</svg>

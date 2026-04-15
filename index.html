@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#020617" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>GSR ERP</title>
+    <style>
+      :root {
+        color-scheme: light;
+        background: #d0f0c0;
+      }
+
+      body {
+        margin: 0;
+        background: #d0f0c0;
+      }
+
+      #app-boot {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: #d0f0c0;
+        color: #18291e;
+        transition: opacity 220ms ease;
+      }
+
+      html[data-app-ready="true"] #app-boot {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .app-boot__shell {
+        width: min(100%, 24rem);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.9rem;
+        text-align: center;
+      }
+
+      .app-boot__title {
+        margin: 0;
+        font: 700 clamp(2rem, 5vw, 2.8rem)/1.1 'Plus Jakarta Sans', 'DM Sans', 'Segoe UI', sans-serif;
+        letter-spacing: 0.08em;
+        color: #15311e;
+      }
+
+      .app-boot__loader {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 1.5rem;
+      }
+
+      .app-boot__loader span {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 999px;
+        background: #2f6b45;
+        animation: app-boot-dot 1s ease-in-out infinite;
+      }
+
+      .app-boot__loader span:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+
+      .app-boot__loader span:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .app-boot__status {
+        font: 500 0.95rem/1.4 'DM Sans', 'Segoe UI', sans-serif;
+        color: #32503d;
+      }
+
+      @keyframes app-boot-dot {
+        0%, 100% {
+          opacity: 0.35;
+          transform: translateY(0);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateY(-4px);
+        }
+      }
+
+      @media (max-width: 767px) {
+        #app-boot {
+          padding: 1.1rem;
+        }
+
+        .app-boot__title {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app-boot" aria-hidden="true">
+      <div class="app-boot__shell">
+        <h1 class="app-boot__title">GSR ERP</h1>
+        <div class="app-boot__loader" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="app-boot__status">Loading</div>
+      </div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

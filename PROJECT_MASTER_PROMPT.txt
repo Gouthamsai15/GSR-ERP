@@ -1,0 +1,1158 @@
+GSR ERP MASTER PROJECT PROMPT
+
+Use this document when handing the codebase to an AI assistant, a new developer, or a future implementation agent.
+
+The goal of this file is not to be short. The goal is to make the project legible end-to-end:
+- what the product is
+- how the frontend is structured
+- how roles and routes work
+- which page does what
+- how the theme system works
+- how Firebase, Firestore, the Node admin API, and legacy Supabase-shaped code interact
+- which files are the primary source of truth
+
+======================================================================
+1. PROJECT IDENTITY
+======================================================================
+
+Project name:
+- GSR ERP
+
+Project category:
+- Multi-role school ERP
+- Multi-school SaaS-style education platform
+
+Primary product purpose:
+- Give schools one unified system for admissions, student records, staff records, classes, attendance, timetable, exams, results, fees, transport, notifications, audit logs, billing, and school subscription operations.
+
+Core product audiences:
+- Public visitors on the marketing home page
+- Super Admin platform owner
+- School Admin
+- Principal
+- Staff
+- Student
+- Parent
+
+Product posture:
+- This is intended to feel like a real operational institution platform, not a toy CRUD dashboard.
+- The codebase is already large and should be treated as a working product foundation.
+- The repository is in an active migration phase: Firebase is now the primary direction, but some service shapes and backend fallbacks still reflect the earlier Supabase structure.
+
+Current product style:
+- Public home page: bright, soft green, polished, mobile-tuned marketing page
+- Login page: calm school-branded auth shell with green educational tone
+- School dashboard: light sage / green “Fresh Meadow” theme
+- Super Admin console: white + orange + navy “Solar Command” theme
+- Legacy landing/theming scaffolding still exists in CSS, but the live home page is now its own brighter scoped design
+
+======================================================================
+2. TECHNOLOGY STACK
+======================================================================
+
+Frontend:
+- React 18
+- TypeScript
+- Vite
+- React Router DOM v6
+- Zustand
+- Tailwind CSS
+- Lucide React
+- Recharts
+- XLSX
+- jsPDF
+
+Backend / services:
+- Firebase Auth
+- Firestore
+- Firebase Admin SDK
+- Node HTTP admin server
+- Shared admin API handler under `server/adminApi.mjs`
+- Vercel/serverless compatible API adapter under `api/admin.mjs`
+
+Legacy / migration layer:
+- Supabase client still exists via `src/services/databaseClient.ts`
+- SQL schema reference still exists in `database/schema.sql`
+- Many services are written to support Firebase-first behavior, with SQL fallback or migration-aware compatibility
+
+Mobile posture:
+- The app is web-first but shaped for mobile
+- README notes it is Capacitor-ready
+- CSS includes native-app safe area handling
+- `MobileBottomNav` and mobile dashboard styles are present
+
+======================================================================
+3. REPO SHAPE
+======================================================================
+
+Top-level important files:
+- `package.json`
+- `README.md`
+- `PROJECT_MASTER_PROMPT.txt`
+- `database/schema.sql`
+- `database/firebase-schema.md`
+- `firebase.json`
+- `firestore.rules`
+- `server/adminApi.mjs`
+- `server/adminServer.mjs`
+- `server/firebaseAdmin.mjs`
+- `api/admin.mjs`
+
+Frontend root:
+- `src/main.tsx`
+- `src/App.tsx`
+- `src/styles/app.css`
+
+Important source folders:
+- `src/pages/`
+- `src/components/`
+- `src/services/`
+- `src/store/`
+- `src/config/`
+- `src/context/`
+- `src/utils/`
+- `src/types/`
+
+Important non-code product assets:
+- `excel-templates/student-import-template.xlsx`
+- `excel-templates/staff-import-template.xlsx`
+- `resources/icon.svg`
+- `resources/splash.svg`
+
+======================================================================
+4. APP ENTRY AND BOOT FLOW
+======================================================================
+
+Primary boot file:
+- `src/main.tsx`
+
+Boot behavior:
+- mounts `App` inside `BrowserRouter`
+- wraps the app with `LanguageProvider`
+- imports the global stylesheet `src/styles/app.css`
+- marks the document as ready with `document.documentElement.dataset.appReady = "true"`
+- removes the boot placeholder element `#app-boot`
+
+Application root:
+- `src/App.tsx`
+
+What `App.tsx` is responsible for:
+- route tree
+- auth hydration
+- Firebase project sync on startup
+- restoring session
+- listening to Firebase auth state changes
+- redirecting users by role
+- protecting routes
+
+Auth/session initialization in `App.tsx`:
+- calls `syncFirebaseProjectConnection()`
+- attempts `restoreSession()`
+- subscribes to auth state via `subscribeToAuthSessionChanges(...)`
+- hydrates role/school/session data through `hydrateAuthSession(...)`
+- writes auth state into `authStore`
+
+Public route guard:
+- `PublicRoute` redirects authenticated users away from `/login`
+
+Protected route layers:
+- `ProtectedRoute`
+- `RoleProtectedRoute`
+
+======================================================================
+5. ROLE MODEL
+======================================================================
+
+Defined in:
+- `src/config/roles.ts`
+
+Primary roles:
+- `super_admin`
+- `admin`
+- `principal`
+- `staff`
+- `student`
+- `parent`
+
+Staff workspace grouping:
+Defined in `src/config/staffWorkspaces.ts`
+
+Workspaces:
+- `teacher`
+- `hr`
+- `accounts`
+- `transport`
+- `admission`
+
+Important role facts:
+- `super_admin` is platform-wide and not school-scoped
+- all other real users are school-scoped
+- staff can represent multiple operational departments, but is normalized into `staff` plus workspace gating
+- several route protections depend on both role and workspace
+
+Bootstrap admin:
+- hard-coded fallback exists for immediate platform access
+- default super admin credentials are documented in README
+- fallback user is stored in `authStore` with `isBootstrapAdmin`
+
+======================================================================
+6. ROUTE INVENTORY
+======================================================================
+
+Source of truth:
+- `src/App.tsx`
+
+Public routes:
+- `/`
+  - public home page
+  - component: `src/pages/home/Home.tsx`
+- `/home`
+  - redirects to `/`
+- `/login`
+  - public login page
+  - component: `src/pages/auth/Login.tsx`
+
+Protected shared route:
+- `/subscription-expired`
+  - component: `src/pages/auth/SubscriptionExpired.tsx`
+
+Super Admin routes:
+- `/super-admin/dashboard`
+- `/super-admin/schools`
+- `/super-admin/schools/new`
+- `/super-admin/schools/:id`
+- `/super-admin/schools/:id/edit`
+- `/super-admin/billing`
+- `/super-admin/billing/new`
+- `/super-admin/billing/:schoolId/edit`
+- `/super-admin/payments`
+- `/super-admin/verification`
+- `/super-admin/payments/:paymentId/edit`
+- `/super-admin/storage`
+- `/super-admin/storage/:schoolId/edit`
+- `/super-admin/audit-logs`
+
+Principal routes:
+- `/principal/dashboard`
+- `/principal/analytics`
+- `/principal/students`
+- `/principal/students/:id`
+- `/principal/staff`
+- `/principal/staff/:id`
+- `/principal/attendance`
+- `/principal/approvals`
+- `/principal/discipline`
+- `/principal/profile`
+- `/principal/settings`
+
+School dashboard routes:
+- `/dashboard/home`
+- `/dashboard/profile`
+- `/dashboard/settings`
+- `/dashboard/audit-logs`
+- `/dashboard/classes`
+- `/dashboard/holidays`
+- `/dashboard/classes/:id`
+- `/dashboard/subscription`
+- `/dashboard/platform-payments`
+- `/dashboard/billing-history`
+- `/dashboard/invoices`
+- `/dashboard/renewal-reminders`
+- `/dashboard/plan-upgrade`
+- `/dashboard/usage`
+- `/dashboard/school-billing-profile`
+- `/dashboard/students`
+- `/dashboard/students/:id`
+- `/dashboard/hr`
+- `/dashboard/employees`
+- `/dashboard/staff-attendance`
+- `/dashboard/employees/:id`
+- `/dashboard/my-attendance`
+- `/dashboard/leaves`
+- `/dashboard/leaves/:id`
+- `/dashboard/accounts`
+- `/dashboard/salary`
+- `/dashboard/salary/:id`
+- `/dashboard/transport`
+- `/dashboard/vehicles`
+- `/dashboard/vehicles/:id`
+- `/dashboard/routes`
+- `/dashboard/routes/:id`
+- `/dashboard/admission`
+- `/dashboard/applicants`
+- `/dashboard/applicants/:id`
+- `/dashboard/staff`
+- `/dashboard/staff/:id`
+- `/dashboard/subjects`
+- `/dashboard/subjects/:id`
+- `/dashboard/analytics`
+- `/dashboard/notifications`
+- `/dashboard/leave-impact/:id`
+- `/dashboard/attendance`
+- `/dashboard/attendance/:id`
+- `/dashboard/results`
+- `/dashboard/results/:id`
+- `/dashboard/timetable`
+- `/dashboard/timetable/coordinator`
+- `/dashboard/timetable/my`
+- `/dashboard/exams`
+- `/dashboard/exams/group/:groupId`
+- `/dashboard/exams/:id`
+- `/dashboard/exams/:id/subjects`
+- `/dashboard/exams/:id/marks`
+- `/dashboard/fees`
+- `/dashboard/fees/:id`
+- `/dashboard/child`
+
+Fallback route:
+- unknown paths redirect to `/`
+
+======================================================================
+7. PAGE INVENTORY BY AREA
+======================================================================
+
+A. Public pages
+
+1. `src/pages/home/Home.tsx`
+- public marketing page
+- uses `data-theme="landing"` but is visually implemented as a bright custom scoped home design
+- major sections:
+  - hero
+  - brand/value preview card
+  - role cards
+  - features grid
+  - modules / why choose us section
+  - implementation steps
+  - CTA
+  - footer
+- tightly customized for mobile
+- home-page-specific styling lives in `app.css` under `.landing-home-*`
+
+2. `src/pages/auth/Login.tsx`
+- main login page
+- uses `data-theme="auth"`
+- includes:
+  - left showcase panel on large screens
+  - login form card
+  - credential sign-in
+  - email or student ID login path
+  - animated submit / shake feedback
+
+3. `src/pages/auth/SubscriptionExpired.tsx`
+- gated access page for expired school accounts
+
+
+B. School admin / school-scoped dashboard pages
+
+Dashboard and overview:
+- `src/pages/dashboard/Home.tsx`
+- `src/pages/dashboard/Analytics.tsx`
+- `src/pages/dashboard/AuditLogs.tsx`
+- `src/pages/dashboard/Profile.tsx`
+- `src/pages/dashboard/Settings.tsx`
+
+Core school records:
+- `Students.tsx`
+- `StudentDetail.tsx`
+- `Staff.tsx`
+- `StaffDetail.tsx`
+- `Classes.tsx`
+- `ClassDetail.tsx`
+- `Subjects.tsx`
+- `SubjectDetail.tsx`
+
+Academic operations:
+- `Timetable.tsx`
+- `StaffAttendance.tsx`
+- `Holidays.tsx`
+- `RoleModules.tsx`
+- `AdvancedModules.tsx`
+
+Business and operations:
+- `Fees.tsx`
+- `Employees.tsx`
+- `Vehicles.tsx`
+- `SchoolBilling.tsx`
+
+Admissions and extra modules:
+- `Applicants.tsx`
+- `DepartmentDashboards.tsx`
+- `CrudPage.tsx`
+- `ModulePage.tsx`
+- `adminPageUtils.tsx`
+
+Parent / student specific:
+- `Child.tsx`
+
+
+C. Principal area
+
+File:
+- `src/pages/principal/PrincipalPages.tsx`
+
+Contains:
+- principal dashboard
+- analytics
+- students overview
+- staff overview
+- attendance oversight
+- approvals
+- discipline
+
+This is a leadership-focused view rather than a full CRUD workspace.
+
+
+D. Super Admin area
+
+Files:
+- `SuperAdminDashboard.tsx`
+- `SuperAdminSchools.tsx`
+- `SuperAdminSchoolCreate.tsx`
+- `SuperAdminSchoolEdit.tsx`
+- `SuperAdminSchoolProfile.tsx`
+- `SuperAdminBilling.tsx`
+- `SuperAdminBillingCreate.tsx`
+- `SuperAdminBillingEdit.tsx`
+- `SuperAdminPayments.tsx`
+- `SuperAdminPaymentEdit.tsx`
+- `SuperAdminStorage.tsx`
+- `SuperAdminStorageEdit.tsx`
+- `SuperAdminAuditLogs.tsx`
+
+Super Admin responsibilities:
+- register and manage schools
+- review subscriptions and payments
+- inspect storage and usage
+- review platform audit activity
+- maintain platform billing records
+
+======================================================================
+8. THEME SYSTEM AND PAGE COLORS
+======================================================================
+
+Global stylesheet:
+- `src/styles/app.css`
+
+The CSS file is a major architectural asset in this repository.
+It contains:
+- root variables
+- theme tokens
+- component skins
+- utility bridges
+- page-specific skins
+- auth styles
+- landing/home styles
+- responsive behavior
+
+Primary theme modes:
+
+1. `data-theme="school"`
+Name used in CSS:
+- Fresh Meadow
+
+Visual character:
+- bright
+- light sage green
+- white surfaces
+- green primary buttons
+- soft green borders
+- school-friendly, calm, trustworthy
+
+Key colors:
+- background: `#f0f5ec`
+- surface: `#ffffff`
+- border: `#ccdec5`
+- primary: `#38a84e`
+- primary strong: `#217a35`
+- text: `#1a2e1c`
+- text muted: `#556b51`
+
+Used for:
+- school dashboard layout
+- school admin pages
+- most day-to-day ERP screens
+
+2. `data-theme="auth"`
+Visual character:
+- matches school dashboard green system
+- clean login shell
+- educational, secure, calm
+
+Key colors:
+- same family as school theme
+- green buttons
+- white auth card
+- soft sage patterned background
+
+Used for:
+- login page
+- auth experience
+
+3. `data-theme="super-admin"`
+Name used in CSS:
+- Solar Command
+
+Visual character:
+- crisp white workspace
+- deep navy sidebar
+- orange action accents
+- stronger enterprise console tone
+
+Key colors:
+- bg: `#f4f6fb`
+- primary orange: `#f05a28`
+- navy: `#0f1729`
+- muted slate text: `#5a6482`
+
+Used for:
+- super admin dashboard
+- platform-wide SaaS management screens
+
+4. `data-theme="landing"`
+Important note:
+- the CSS still contains older “Midnight Scholar” dark landing scaffolding
+- the live home page now uses scoped `.landing-home-*` classes to render a bright green-themed public page
+- login is not using those home-only bright classes
+
+Current public home page design language:
+- bright and light
+- green/white gradient surfaces
+- soft glass panels
+- green primary accents
+- supportive educational tone
+- tuned heavily for mobile
+
+Home page visual areas:
+- hero shell with bright layered gradients
+- soft panel preview card on the right
+- stat cards
+- role cards
+- feature cards
+- implementation steps
+- CTA card
+- compact footer
+
+Typography system:
+- `Nunito`
+- `DM Sans`
+- `Syne`
+- `Lexend`
+- `Plus Jakarta Sans`
+- `JetBrains Mono`
+- others imported for design flexibility
+
+Theme/layout primitives defined in CSS:
+- `.dashboard-shell`
+- `.layout-sidebar`
+- `.layout-topbar`
+- `.ui-card`
+- `.ui-input`
+- `.ui-button`
+- `.metric-card`
+- `.landing-shell`
+- `.landing-home-*`
+- `.auth-*`
+
+======================================================================
+9. LAYOUT AND SHELL SYSTEM
+======================================================================
+
+Main shell component:
+- `src/components/layout/DashboardLayout.tsx`
+
+Dashboard layout behavior:
+- chooses the theme and shell by role/path
+- super admin => `data-theme="super-admin"`
+- school/principal areas => `data-theme="school"`
+
+Shared layout pieces:
+- `Navbar.tsx`
+- `Sidebar.tsx`
+- `MobileBottomNav.tsx`
+- `TeacherTimetableAlerts.tsx`
+
+Navbar responsibilities:
+- top-level app branding
+- menu trigger
+- login/action button on public page
+- language switcher integration
+- dashboard topbar actions
+
+Sidebar responsibilities:
+- role-aware navigation
+- school vs super admin styling
+- mobile drawer support
+
+Mobile bottom nav:
+- used in dashboard areas
+- important for smaller devices
+
+Language switching:
+- `src/components/layout/LanguageSwitcher.tsx`
+- `src/context/LanguageContext.tsx`
+- `src/config/languages.ts`
+
+======================================================================
+10. UI COMPONENT SYSTEM
+======================================================================
+
+Reusable UI components:
+- `src/components/ui/Button.tsx`
+- `src/components/ui/Card.tsx`
+- `src/components/ui/Input.tsx`
+- `src/components/ui/Modal.tsx`
+- `src/components/ui/Table.tsx`
+- `src/components/ui/DataTable.tsx`
+- `src/components/ui/ActionIconButton.tsx`
+
+Design pattern:
+- components are lightweight wrappers
+- visual identity is mostly controlled by global theme CSS
+- Tailwind utility classes are used alongside shared themed classes
+
+Attendance-specific UI:
+- `AttendanceMonthGrid.tsx`
+- `AttendanceStatusToggle.tsx`
+
+Super Admin-specific UI:
+- `CreateBillingPaymentModal.tsx`
+- `CreateSchoolModal.tsx`
+- `SuperAdminDesign.tsx`
+- `SuperAdminMobileActionBar.tsx`
+
+Mobile-specific UI:
+- `ConnectivityBanner.tsx`
+- `MobileDashboard.tsx`
+
+======================================================================
+11. STATE AND CONTEXT
+======================================================================
+
+Global auth state:
+- `src/store/authStore.ts`
+
+Auth store holds:
+- `user`
+- `role`
+- `school`
+- `loading`
+- `session`
+
+Key auth store helpers:
+- `setAuth`
+- `setLoading`
+- `logout`
+- `getBootstrapAdmin`
+
+Language context:
+- `src/context/LanguageContext.tsx`
+
+Likely data caching / non-auth state:
+- `src/store/dataStore.ts`
+
+Behavioral note:
+- many service-level caches also exist in `adminService.ts`
+- not all state is centralized in Zustand; some state is cached at service level
+
+======================================================================
+12. AUTHENTICATION ARCHITECTURE
+======================================================================
+
+Primary auth file:
+- `src/services/authService.ts`
+
+Auth direction:
+- Firebase Auth is the live auth backbone
+
+What auth service does:
+- login with identifier
+- restore session
+- hydrate role/user/school context
+- subscribe to Firebase auth state changes
+- support bootstrap super admin
+- resolve school profile
+- hit admin API when needed
+
+Important auth facts:
+- no public signup
+- login can be email-based or student-ID based
+- `AuthUser` is the normalized frontend identity shape
+- `CurrentSchool` is resolved and attached to the store
+- session includes Firebase token data
+
+Admin API usage in auth:
+- auth service can call the admin API to get authoritative user/school context
+- `getAdminApiEndpoints()` and related helpers define endpoint selection
+
+Firebase project hygiene:
+- `syncFirebaseProjectConnection()` clears stale Firebase persistence when the configured Firebase project changes
+
+Persistence:
+- `ensureFirebasePersistence()` uses browser local persistence
+
+======================================================================
+13. DATA LAYER ARCHITECTURE
+======================================================================
+
+This repository has a hybrid data layer.
+
+Primary modern direction:
+- Firebase client auth + Firestore on frontend
+- Firebase Admin on server
+
+Legacy / migration support:
+- Supabase client still exists
+- SQL schema still exists
+- some service flows still support SQL-shaped query patterns
+
+Important files:
+- `src/services/firebaseClient.ts`
+- `src/services/firebaseService.ts`
+- `src/services/adminService.ts`
+- `src/services/databaseClient.ts`
+- `src/services/saasService.ts`
+- `server/firebaseAdmin.mjs`
+- `server/adminApi.mjs`
+
+Client database client:
+- `databaseClient.ts`
+- creates Supabase client if `VITE_DATABASE_URL` and `VITE_DATABASE_ANON_KEY` are present
+- adds fetch timeout protection
+
+Firebase client:
+- `firebaseClient.ts`
+- initializes:
+  - Firebase app
+  - Firebase Auth
+  - Firestore
+  - analytics on supported platforms
+
+Operational service layer:
+- `adminService.ts`
+- this is the biggest and most important business service file in the repository
+
+What `adminService.ts` covers:
+- classes
+- subjects
+- holidays
+- staff
+- students
+- attendance
+- exams
+- results
+- fees
+- employees
+- staff attendance
+- leaves
+- audit logs
+- notifications
+- salary
+- vehicles
+- routes
+- applicants
+- dashboard preload
+- timetable
+- timetable impacts
+- helper caches
+- school-scoped reads
+- Firebase and server-action fallbacks
+
+Service pattern used across the file:
+- if Firebase is available, read/write Firestore directly or through cached helpers
+- if Firestore permissions block an operation, server API fallback may be used
+- if Firebase is not available or feature is legacy-shaped, SQL/Supabase path may still be used
+
+Important architectural consequence:
+- developers must not assume one single backend path for all modules
+- each service function may be:
+  - Firebase-only
+  - Firebase-first with server fallback
+  - SQL-backed
+  - migration-aware hybrid
+
+======================================================================
+14. SERVER / ADMIN API ARCHITECTURE
+======================================================================
+
+Files:
+- `server/adminApi.mjs`
+- `server/adminServer.mjs`
+- `api/admin.mjs`
+- `server/firebaseAdmin.mjs`
+
+`server/adminServer.mjs`
+- local Node HTTP server wrapper
+- exposes the shared admin API handler
+
+`api/admin.mjs`
+- serverless-friendly adapter
+- exports default handler wrapping `handleAdminApi`
+
+`server/adminApi.mjs`
+- shared Node handler
+- loads `.env` and `.env.server`
+- initializes legacy service-role client if configured
+- initializes Firebase Admin usage through `firebaseAdmin.mjs`
+- exposes server actions for frontend service fallback
+
+Server responsibilities include:
+- get auth context
+- Firestore document get/set/delete helpers
+- collection listing helpers
+- staff attendance save operations
+- dashboard fast endpoints
+- potentially legacy/migration operations where client-side access is unsuitable
+
+Important note:
+- The file contains “missing legacy database” fallbacks, making it clear that some old SQL-era modules are still being migrated.
+
+======================================================================
+15. DATABASE MODEL
+======================================================================
+
+There are two schema references in the repo:
+
+1. Firestore setup sheet:
+- `database/firebase-schema.md`
+
+2. SQL reset schema:
+- `database/schema.sql`
+
+Firestore collections documented in `firebase-schema.md`:
+- `schools`
+- `users`
+- `staff`
+- `parents`
+- `students`
+- `classes`
+- `subjects`
+- `holidays`
+- `attendance`
+- `staffAttendance`
+- `fees`
+- `auditLogs`
+- `timetable`
+- `notifications`
+- `leaves`
+- `salary`
+- `vehicles`
+- `routes`
+- `applicants`
+- `subscriptions`
+- `payments`
+- `timetableAdjustments`
+
+Core conceptual entities:
+- School
+- User
+- Staff
+- Parent
+- Student
+- Class
+- Subject
+- Holiday
+- Attendance
+- Timetable
+- Fees
+- Leave
+- Notifications
+- Salary
+- Transport
+- Applicant
+- Subscription and payments
+
+SQL schema confirms the broader SaaS model:
+- platform-level school registry
+- subscriptions
+- payments
+- platform payment requests
+- billing documents
+- renewal reminders
+- plan change requests
+- school-scoped academic and operational tables
+
+School scoping:
+- most records belong to a school
+- super admin is the only unscoped role
+- data access is intended to be school-bounded
+
+======================================================================
+16. PAGE-TO-SERVICE CONNECTIONS
+======================================================================
+
+The project relies heavily on service modules rather than page-local fetch logic.
+
+Key pattern:
+- pages import service functions
+- service functions normalize backend access
+- pages stay mostly focused on UI, view state, and form flow
+
+Examples of page/service coupling:
+
+Home page:
+- mostly static/marketing
+- connected to shared navbar, language switcher, and global CSS
+
+Login page:
+- `loginWithIdentifier(...)` from `authService.ts`
+- redirects using `getDefaultRouteForRole(...)`
+
+Dashboard pages:
+- mainly depend on `adminService.ts`
+
+Super Admin pages:
+- mainly depend on `saasService.ts`
+
+Common backend-connected page groups:
+- Students / StudentDetail => student CRUD/read services
+- Staff / StaffDetail => staff CRUD/read services
+- Classes / ClassDetail => class services
+- Subjects / SubjectDetail => subject services
+- Holidays => holiday services
+- Timetable => timetable services
+- Attendance => attendance services
+- Exams / Results => exam, marks, results services
+- Fees => fee services
+- Employees / Staff Attendance / Leaves / Salary => HR and payroll services
+- Vehicles / Routes => transport services
+- Applicants => admission services
+- Analytics / Dashboard => preload and overview services
+- Super Admin billing pages => `saasService.ts`
+
+======================================================================
+17. SPECIAL ATTENTION: TIMETABLE MODULE
+======================================================================
+
+Files:
+- `src/pages/dashboard/Timetable.tsx`
+- `src/utils/teacherTimetableAlerts.ts`
+- `src/components/layout/TeacherTimetableAlerts.tsx`
+- timetable functions in `src/services/adminService.ts`
+
+Timetable responsibilities:
+- weekly timetable template
+- admin timetable management
+- coordinator timetable management
+- personal teaching timetable
+- leave impact review
+- break handling
+- role-aware edit restrictions
+
+Important recent behavior:
+- break slots are handled as weekly class/section operations
+- Firebase and SQL paths both exist in timetable services
+- timetable is a sensitive module because it intersects:
+  - staff assignments
+  - class conflicts
+  - leave impacts
+  - attendance subject derivation
+
+If changing timetable:
+- trace create/update/delete carefully
+- verify break logic
+- verify class/section scoping
+- verify teacher conflict detection
+- verify data source consistency between save and load paths
+
+======================================================================
+18. SIDEBAR AND NAVIGATION MODEL
+======================================================================
+
+Sidebar source:
+- `src/config/sidebar.ts`
+
+This file defines:
+- label
+- path
+- description
+- role visibility
+
+Navigation utilities:
+- `src/utils/navigation.ts`
+
+Important behavior:
+- role default routes are derived centrally
+- dashboard-like path detection exists
+- layout and alert systems depend on route classification
+
+======================================================================
+19. LANGUAGE / LOCALIZATION
+======================================================================
+
+Files:
+- `src/context/LanguageContext.tsx`
+- `src/config/languages.ts`
+- `src/components/layout/LanguageSwitcher.tsx`
+
+Behavior:
+- global language provider wraps the app
+- language switcher is present in navbar contexts
+- CSS includes explicit styling for the landing language panel and options
+- Google Translate suppression CSS exists, which suggests translation UI interference has been intentionally controlled
+
+======================================================================
+20. RESPONSIVE AND MOBILE DESIGN RULES
+======================================================================
+
+The app is not desktop-only.
+
+Mobile design mechanisms already present:
+- responsive CSS inside `app.css`
+- mobile bottom nav
+- mobile dashboard components
+- compact dashboard paddings
+- mobile-specific home page tuning
+- native-app safe area support
+
+Current responsive emphasis:
+- home page is heavily optimized for mobile card sizing and footer fit
+- dashboard layout uses smaller paddings and bottom nav on smaller screens
+- tables include responsive table behavior
+
+When changing mobile behavior:
+- prefer updating `app.css`
+- preserve theme scoping
+- avoid inline style drift in page components
+
+======================================================================
+21. FILES THAT ARE ESPECIALLY HIGH IMPACT
+======================================================================
+
+These files affect large parts of the product:
+- `src/App.tsx`
+- `src/styles/app.css`
+- `src/services/adminService.ts`
+- `src/services/authService.ts`
+- `src/services/saasService.ts`
+- `src/components/layout/Navbar.tsx`
+- `src/components/layout/Sidebar.tsx`
+- `src/components/layout/DashboardLayout.tsx`
+- `src/components/layout/LanguageSwitcher.tsx`
+
+Changes to these files can ripple widely.
+
+======================================================================
+22. IMPLEMENTATION GUIDELINES FOR FUTURE WORK
+======================================================================
+
+When modifying this repo, follow these rules:
+
+1. Read before editing
+- Always inspect the relevant page component, the related service, and `app.css` before making assumptions.
+
+2. Respect theme scoping
+- Dashboard school pages should stay in the school theme.
+- Super Admin pages should stay in the super admin theme.
+- Auth pages should stay in auth theme.
+- Home page should use the bright scoped landing-home system.
+
+3. Prefer CSS centralization
+- Visual behavior should usually go into `src/styles/app.css`
+- Avoid scattering style logic into many page files unless a component truly needs local logic
+
+4. Respect route and role boundaries
+- Many pages are intentionally role-gated or workspace-gated
+- Do not widen access casually
+
+5. Be careful with backend assumptions
+- Firebase is the target direction
+- legacy SQL support still exists
+- always inspect the service function being changed
+
+6. For large features, update all layers
+- UI
+- route permissions
+- service function
+- cache invalidation
+- any server fallback behavior
+
+7. For school-scoped data, keep school isolation intact
+- super admin is the platform role
+- normal school data must remain school-scoped
+
+======================================================================
+23. WHAT AN AI AGENT SHOULD UNDERSTAND BEFORE CHANGING CODE
+======================================================================
+
+An implementation agent should understand all of the following:
+- this is a multi-role, multi-school ERP
+- the route tree is large and intentionally segmented
+- styles are centralized in one giant CSS file
+- Firebase is first-class
+- Supabase-shaped code is still present as migration scaffolding
+- `adminService.ts` is the main operational business layer
+- `saasService.ts` is the platform/SaaS administration layer
+- small visual changes can still affect multiple themes
+- mobile behavior matters
+- auth and role redirects matter
+- school scoping matters
+
+======================================================================
+24. QUICK MAP OF THE MOST IMPORTANT PATHS
+======================================================================
+
+App shell and routing:
+- `src/main.tsx`
+- `src/App.tsx`
+- `src/components/layout/DashboardLayout.tsx`
+
+Themes and design:
+- `src/styles/app.css`
+
+Public experience:
+- `src/pages/home/Home.tsx`
+- `src/pages/auth/Login.tsx`
+
+Role and navigation config:
+- `src/config/roles.ts`
+- `src/config/sidebar.ts`
+- `src/config/staffWorkspaces.ts`
+- `src/utils/navigation.ts`
+
+Auth and session:
+- `src/store/authStore.ts`
+- `src/services/authService.ts`
+- `src/services/firebaseClient.ts`
+- `src/services/firebaseService.ts`
+
+Operational data:
+- `src/services/adminService.ts`
+
+Platform / super admin data:
+- `src/services/saasService.ts`
+
+Server:
+- `server/adminApi.mjs`
+- `server/adminServer.mjs`
+- `server/firebaseAdmin.mjs`
+- `api/admin.mjs`
+
+Schema references:
+- `database/firebase-schema.md`
+- `database/schema.sql`
+
+======================================================================
+25. FINAL PROJECT SUMMARY
+======================================================================
+
+GSR ERP is a large, school-first operational platform with:
+- a public marketing surface
+- a school login portal
+- a school admin ERP
+- a principal console
+- a platform super admin console
+- role-based access
+- school-scoped data
+- Firebase-centered authentication and data flow
+- a Node admin API
+- a large global theme system
+- active migration scaffolding from an older SQL/Supabase structure
+
+If you are continuing work on this project:
+- start with the route tree
+- inspect the relevant page component
+- inspect the service function it depends on
+- inspect the matching theme block in `app.css`
+- preserve role logic, school scoping, and data-source consistency
+
+This repository is broad, interconnected, and already opinionated. Work best by extending the existing architecture instead of trying to replace it in one move.
