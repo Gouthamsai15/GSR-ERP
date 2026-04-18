@@ -3753,7 +3753,7 @@ body > .skiptranslate,
   flex-direction: column;
   gap: 0.2rem;
   font-family: 'Plus Jakarta Sans', 'DM Sans', 'Segoe UI', sans-serif;
-  font-size: clamp(3rem, 6.5vw, 5.8rem);
+  font-size: clamp(3.5rem, 6.5vw, 6.5rem);
   line-height: 0.98;
   letter-spacing: -0.05em;
   color: #18311d;
@@ -4825,11 +4825,16 @@ body > .skiptranslate,
     margin-top: 0.7rem;
     max-width: 14ch;
     margin-inline: auto;
-    font-size: clamp(2.45rem, 9.8vw, 3.45rem) !important;
+    font-size: clamp(4rem, 9.8vw, 5.5rem) !important;
     line-height: 0.92 !important;
     letter-spacing: -0.055em;
     font-weight: 900;
     text-wrap: balance;
+  }
+
+  [data-theme="landing"] .landing-home-title-lead,
+  [data-theme="landing"] .landing-home-title-accent {
+    font-size: inherit;
   }
 
   [data-theme="landing"] .landing-home-subtitle {
