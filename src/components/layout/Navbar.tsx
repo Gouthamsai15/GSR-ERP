@@ -180,7 +180,13 @@ export const Navbar = ({ onMenuClick }: NavbarProps) => {
   if (!isDashboard) {
     return (
       <header className={isLandingPage ? "landing-navbar sticky top-0 z-30" : "sticky top-0 z-30 border-b border-slate-200 bg-white"}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+        <div
+          className={
+            isLandingPage
+              ? "flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-5 lg:px-8"
+              : "mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
+          }
+        >
           <Link to="/home" className="flex items-center gap-3">
             <div className="layout-brand-mark h-10 w-10 rounded-xl text-lg">G</div>
             <div>

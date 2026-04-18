@@ -3454,7 +3454,11 @@ body > .skiptranslate,
 }
 
 [data-theme="landing"] .landing-home-shell {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   overflow-x: hidden;
   background:
     radial-gradient(ellipse at 10% 0%, rgba(52, 168, 83, 0.13) 0%, transparent 42%),
@@ -3495,11 +3499,17 @@ body > .skiptranslate,
   position: sticky;
   top: 0;
   z-index: 30;
+  width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: linear-gradient(180deg, rgba(24, 91, 42, 0.96) 0%, rgba(18, 72, 33, 0.94) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 10px 28px rgba(18, 72, 33, 0.18);
+}
+
+[data-theme="landing"] .landing-navbar > div {
+  width: 100%;
+  min-height: 4.5rem;
 }
 
 [data-theme="landing"] .landing-navbar h1,
@@ -3653,6 +3663,10 @@ body > .skiptranslate,
 }
 
 [data-theme="landing"] .landing-home-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   padding-bottom: 0;
 }
 
@@ -3675,12 +3689,18 @@ body > .skiptranslate,
 }
 
 [data-theme="landing"] .landing-home-container {
-  width: min(72rem, calc(100% - 2rem));
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-inline: clamp(1.25rem, 4vw, 3.5rem);
 }
 
 [data-theme="landing"] .landing-home-hero {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100dvh - 4.5rem);
   padding: 4.25rem 0 2rem;
 }
 
@@ -3696,6 +3716,7 @@ body > .skiptranslate,
   display: grid;
   gap: 2rem;
   align-items: center;
+  width: 100%;
 }
 
 [data-theme="landing"] .landing-home-copy {
@@ -4715,59 +4736,66 @@ body > .skiptranslate,
 @media (max-width: 767px) {
   [data-theme="landing"] .landing-navbar {
     padding-inline: 0;
+    top: 0;
+    padding-top: env(safe-area-inset-top);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 24px rgba(12, 40, 20, 0.2);
   }
 
   [data-theme="landing"] .landing-navbar > div {
-    gap: 0.55rem;
-    padding: 0.65rem 0.8rem;
+    gap: 0.7rem;
+    padding: 0.8rem 0.95rem calc(0.8rem + env(safe-area-inset-top) * 0);
+    min-height: 4.25rem;
   }
 
   [data-theme="landing"] .landing-navbar .layout-brand-mark {
-    width: 2rem !important;
-    height: 2rem !important;
-    border-radius: 0.7rem !important;
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+    border-radius: 0.8rem !important;
     font-size: 0.82rem !important;
   }
 
   [data-theme="landing"] .landing-navbar h1 {
-    font-size: 0.84rem !important;
-    line-height: 1.1;
+    font-size: 0.92rem !important;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
   }
 
   [data-theme="landing"] .landing-navbar .ui-button {
-    min-height: 2.35rem;
-    padding: 0.55rem 0.8rem;
-    font-size: 0.74rem;
+    min-height: 2.6rem;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.78rem;
+    border-radius: 999px;
   }
 
   [data-theme="landing"] .landing-navbar .landing-language-trigger {
-    min-height: 2.35rem;
-    padding-inline: 0.7rem !important;
-    font-size: 0.72rem !important;
+    min-height: 2.6rem;
+    padding-inline: 0.8rem !important;
+    font-size: 0.76rem !important;
+    border-radius: 999px !important;
   }
 
   [data-theme="landing"] .landing-navbar .landing-navbar-action {
-    padding-inline: 0.8rem !important;
+    padding-inline: 0.95rem !important;
   }
 
   [data-theme="landing"] .landing-home-container {
-    width: min(100% - 1rem, 34rem);
-  }
-
-  [data-theme="landing"] .landing-home-main {
-    padding-bottom: 0;
+    width: 100%;
+    padding-inline: 0.95rem;
   }
 
   [data-theme="landing"] .landing-home-hero {
-    padding: 1.5rem 0 1rem;
+    min-height: calc(100dvh - 4.25rem - env(safe-area-inset-top));
+    padding: 1.25rem 0 1.25rem;
+    justify-content: center;
   }
 
   [data-theme="landing"] .landing-home-hero-grid {
-    gap: 1.2rem;
+    gap: 1.1rem;
+    align-content: center;
   }
 
   [data-theme="landing"] .landing-home-copy {
-    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -4794,39 +4822,34 @@ body > .skiptranslate,
   }
 
   [data-theme="landing"] .landing-home-title {
-    margin-top: 0.9rem;
-    width: 100%;
-    max-width: 12.5ch;
+    margin-top: 0.7rem;
+    max-width: 14ch;
     margin-inline: auto;
-    font-size: clamp(2.65rem, 10vw, 3.7rem) !important;
-    line-height: 0.93 !important;
+    font-size: clamp(2.45rem, 9.8vw, 3.45rem) !important;
+    line-height: 0.92 !important;
     letter-spacing: -0.055em;
     font-weight: 900;
     text-wrap: balance;
   }
 
-  [data-theme="landing"] .landing-home-title-lead,
-  [data-theme="landing"] .landing-home-title-accent {
-    line-height: 0.95;
-    font-size: 1em;
-  }
-
   [data-theme="landing"] .landing-home-subtitle {
-    margin-top: 0.8rem;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    max-width: 34ch;
+    margin-top: 0.7rem;
+    font-size: 0.9rem;
+    line-height: 1.62;
+    max-width: 33ch;
   }
 
   [data-theme="landing"] .landing-home-actions {
     margin-top: 1rem;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 0.6rem;
+    width: 100%;
   }
 
   [data-theme="landing"] .landing-home-trust-row {
-    margin-top: 0.75rem;
+    margin-top: 0.7rem;
     gap: 0.45rem;
+    justify-content: center;
   }
 
   [data-theme="landing"] .landing-home-trust-item {
@@ -4839,36 +4862,29 @@ body > .skiptranslate,
   [data-theme="landing"] .landing-home-secondary-link,
   [data-theme="landing"] .landing-home-cta-link {
     width: 100%;
-    min-height: 2.9rem;
-    padding: 0.75rem 1rem;
+    min-height: 3rem;
+    padding: 0.8rem 1rem;
     font-size: 0.86rem;
+    border-radius: 1rem;
   }
 
   [data-theme="landing"] .landing-home-stats {
-    margin-top: 1.15rem;
+    margin-top: 1rem;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.45rem;
-    align-items: stretch;
   }
 
-  [data-theme="landing"] .landing-home-stat-card,
-  [data-theme="landing"] .landing-home-role-card,
-  [data-theme="landing"] .landing-home-feature-card,
-  [data-theme="landing"] .landing-home-module-card,
-  [data-theme="landing"] .landing-home-why-card,
-  [data-theme="landing"] .landing-home-step-card,
-  [data-theme="landing"] .landing-home-cta-card {
+  [data-theme="landing"] .landing-home-stat-card {
     border-radius: 1.2rem;
-    padding: 1rem;
+    padding: 0.8rem 0.55rem;
+    text-align: center;
   }
 
-  [data-theme="landing"] .landing-home-stat-icon,
-  [data-theme="landing"] .landing-home-role-icon,
-  [data-theme="landing"] .landing-home-feature-icon,
-  [data-theme="landing"] .landing-home-step-icon {
-    width: 2.3rem;
-    height: 2.3rem;
-    margin-bottom: 0.75rem;
+  [data-theme="landing"] .landing-home-stat-icon {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.6rem;
+    border-radius: 0.65rem;
   }
 
   [data-theme="landing"] .landing-home-stat-value {
@@ -4883,6 +4899,7 @@ body > .skiptranslate,
 
   [data-theme="landing"] .landing-home-preview-card {
     border-radius: 1.3rem;
+    box-shadow: 0 18px 46px rgba(52, 168, 83, 0.12);
   }
 
   [data-theme="landing"] .landing-home-preview-topbar {
@@ -4976,212 +4993,12 @@ body > .skiptranslate,
     line-height: 1.08;
   }
 
-  [data-theme="landing"] .landing-home-module-grid,
-  [data-theme="landing"] .landing-home-benefit-list {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  [data-theme="landing"] .landing-home-role-grid,
-  [data-theme="landing"] .landing-home-feature-grid,
-  [data-theme="landing"] .landing-home-steps {
-    display: grid;
-    grid-auto-flow: column;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    padding-bottom: 0.35rem;
-    scrollbar-width: none;
-  }
-
-  [data-theme="landing"] .landing-home-role-grid::-webkit-scrollbar,
-  [data-theme="landing"] .landing-home-feature-grid::-webkit-scrollbar,
-  [data-theme="landing"] .landing-home-steps::-webkit-scrollbar {
-    display: none;
-  }
-
-  [data-theme="landing"] .landing-home-role-grid {
-    grid-auto-columns: minmax(15rem, 84%);
-    gap: 0.7rem;
-  }
-
-  [data-theme="landing"] .landing-home-feature-grid {
-    grid-auto-columns: minmax(16rem, 86%);
-    gap: 0.85rem;
-    padding-inline: 0.05rem;
-  }
-
-  [data-theme="landing"] .landing-home-steps {
-    grid-auto-columns: minmax(14.5rem, 82%);
-    gap: 0.7rem;
-  }
-
-  [data-theme="landing"] .landing-home-module-item {
-    min-height: 2.9rem;
-    padding: 0.7rem 0.8rem;
-    font-size: 0.84rem;
-  }
-
-  [data-theme="landing"] .landing-home-module-icon {
-    width: 1.85rem;
-    height: 1.85rem;
-    border-radius: 0.65rem;
-  }
-
-  [data-theme="landing"] .landing-home-benefit-check {
-    width: 1.55rem;
-    height: 1.55rem;
-  }
-
-  [data-theme="landing"] .landing-home-stat-card,
-  [data-theme="landing"] .landing-home-role-card,
-  [data-theme="landing"] .landing-home-feature-card,
-  [data-theme="landing"] .landing-home-step-card {
-    height: 100%;
-    scroll-snap-align: start;
-  }
-
-  [data-theme="landing"] .landing-home-stat-card {
-    padding: 0.8rem 0.55rem;
-    text-align: center;
-  }
-
-  [data-theme="landing"] .landing-home-role-card {
-    min-width: 0;
-    padding: 1rem 0.95rem;
-  }
-
-  [data-theme="landing"] .landing-home-role-card h3 {
-    font-size: 1rem;
-    line-height: 1.2;
-    margin-bottom: 0.35rem;
-    text-align: left;
-  }
-
-  [data-theme="landing"] .landing-home-role-card p {
-    font-size: 0.8rem;
-    line-height: 1.5;
-    text-align: left;
-  }
-
-  [data-theme="landing"] .landing-home-role-icon {
-    margin-inline: 0;
-    margin-bottom: 0.7rem;
-    width: 2.35rem;
-    height: 2.35rem;
-  }
-
-  [data-theme="landing"] .landing-home-feature-card {
-    min-height: 12.6rem;
-    padding: 0.95rem 0.95rem 1rem;
-  }
-
-  [data-theme="landing"] .landing-home-feature-card:nth-child(odd) {
-    transform: translateY(0.35rem);
-  }
-
-  [data-theme="landing"] .landing-home-feature-card:nth-child(even) {
-    transform: translateY(0);
-  }
-
-  [data-theme="landing"] .landing-home-feature-icon {
-    width: 2.65rem;
-    height: 2.65rem;
-    border-radius: 0.9rem;
-  }
-
-  [data-theme="landing"] .landing-home-feature-title {
-    font-size: 1rem;
-    line-height: 1.25;
-  }
-
-  [data-theme="landing"] .landing-home-feature-copy {
-    font-size: 0.8rem;
-    line-height: 1.5;
-  }
-
-  [data-theme="landing"] .landing-home-step-number {
-    top: 0.75rem;
-    right: 0.8rem;
-    font-size: 1.45rem;
-  }
-
-  [data-theme="landing"] .landing-home-step-title,
-  [data-theme="landing"] .landing-home-role-card h3,
-  [data-theme="landing"] .landing-home-feature-title {
-    font-size: 0.98rem;
-  }
-
-  [data-theme="landing"] .landing-home-step-card {
-    min-height: 11.2rem;
-    padding: 0.95rem 0.85rem;
-  }
-
-  [data-theme="landing"] .landing-home-step-copy {
-    max-width: 24ch;
-    margin-inline: auto;
-  }
-
-  [data-theme="landing"] .landing-home-cta-wrap {
-    padding-bottom: 0;
-  }
-
-  [data-theme="landing"] .landing-home-cta-actions {
-    margin-top: 1rem;
-    gap: 0.65rem;
-  }
-
   [data-theme="landing"] .landing-home-footer {
-    padding: 0.8rem 0 0.18rem;
-  }
-
-  [data-theme="landing"] .landing-home-footer-inner {
-    gap: 0.7rem;
-    align-items: center;
-    text-align: center;
-  }
-
-  [data-theme="landing"] .landing-home-footer-links {
-    max-width: 100%;
-    gap: 0.35rem;
-  }
-
-  [data-theme="landing"] .landing-home-footer-links a,
-  [data-theme="landing"] .landing-home-footer-copy {
-    font-size: 0.76rem;
-  }
-
-  [data-theme="landing"] .landing-home-backtop {
-    gap: 0.5rem;
-    padding-bottom: 0.35rem;
-  }
-
-  [data-theme="landing"] .landing-home-backtop-core,
-  [data-theme="landing"] .landing-home-backtop-ripple {
-    width: 2.8rem;
-    height: 2.8rem;
-  }
-
-  [data-theme="landing"] .landing-home-backtop-label {
-    font-size: 0.66rem;
-  }
-}
-
-@media (max-width: 480px) {
-  [data-theme="landing"] .landing-home-title {
-    max-width: 12ch;
-    font-size: clamp(2.45rem, 10.8vw, 3.3rem) !important;
-    line-height: 0.92 !important;
-    letter-spacing: -0.055em;
+    padding-bottom: calc(0.25rem + env(safe-area-inset-bottom));
   }
 }
 
 @media (min-width: 768px) {
-  [data-theme="landing"] .landing-home-hero-grid {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 2.5rem;
-  }
-
   [data-theme="landing"] .landing-home-section-head {
     grid-template-columns: 1fr auto;
     align-items: end;
@@ -5201,8 +5018,21 @@ body > .skiptranslate,
 }
 
 @media (min-width: 1024px) {
+  [data-theme="landing"] .landing-home-hero {
+    min-height: calc(100dvh - 4.5rem);
+  }
+
+  [data-theme="landing"] .landing-home-hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2rem, 4vw, 5rem);
+  }
+
+  [data-theme="landing"] .landing-home-container {
+    padding-inline: clamp(2rem, 5vw, 5rem);
+  }
+
   [data-theme="landing"] .landing-home-section {
-    padding: 5rem 0;
+    padding: clamp(4rem, 6vh, 6rem) 0;
   }
 
   [data-theme="landing"] .landing-home-role-grid {
