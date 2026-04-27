@@ -111,163 +111,207 @@ export const Login = () => {
           </div>
 
           {/* Form */}
-            <form onSubmit={handleSubmit} className="form" style={{
-              '--background': '#f0f4f8',
-              '--input-focus': '#2d8cf0',
-              '--font-color': '#1a1a1a',
-              '--font-color-sub': '#64748b',
-              '--bg-color': '#ffffff',
-              '--main-color': '#1a1a1a',
-              padding: '50px',
-              background: 'var(--background)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              gap: '24px',
-              borderRadius: '16px',
-              border: '3px solid var(--main-color)',
-              boxShadow: '8px 8px var(--main-color), 0 4px 12px rgba(0,0,0,0.15)',
-              width: '100%',
-              maxWidth: '500px',
-              margin: '0 auto',
-              minHeight: '700px',
-              boxSizing: 'border-box',
-              position: 'relative',
-              overflow: 'hidden'
-            } as React.CSSProperties}>
-              {/* Mobile-specific styles */}
-              <style>{`
+          <form onSubmit={handleSubmit} className="form" style={{
+            '--background': '#f0f4f8',
+            '--input-focus': '#2d8cf0',
+            '--font-color': '#1a1a1a',
+            '--font-color-sub': '#64748b',
+            '--bg-color': '#ffffff',
+            '--main-color': '#1a1a1a',
+            padding: '50px',
+            background: 'var(--background)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            gap: '24px',
+            borderRadius: '16px',
+            border: '3px solid var(--main-color)',
+            boxShadow: '8px 8px var(--main-color), 0 4px 12px rgba(0,0,0,0.15)',
+            width: '100%',
+            maxWidth: '500px',
+            margin: '0 auto',
+            minHeight: '700px',
+            boxSizing: 'border-box',
+            position: 'relative',
+            overflow: 'hidden'
+          } as React.CSSProperties}>
+            {/* Mobile-specific styles */}
+            <style>{`
                 @media (max-width: 480px) {
                   form {
-                    padding: 20px !important;
-                    width: 95vw !important;
-                    max-width: 320px !important;
-                    minHeight: 480px !important;
-                    gap: 12px !important;
-                    borderRadius: '10px !important;
-                    margin: '20px auto !important';
+                    padding: 24px 16px !important;
+                    width: 92% !important;
+                    max-width: 440px !important;
+                    min-height: 500px !important;
+                    gap: 16px !important;
+                    border-radius: 12px !important;
+                    margin: 10px auto !important;
+                    box-shadow: 4px 4px var(--main-color), 0 4px 12px rgba(0,0,0,0.1) !important;
                   }
                   
                   form input {
-                    height: 45px !important;
-                    padding: 12px 15px !important;
-                    font-size: 15px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important';
+                    height: 54px !important;
+                    padding: 12px 16px !important;
+                    font-size: 16px !important;
+                    border-radius: 10px !important;
+                    border: 2px solid var(--main-color) !important;
+                    box-shadow: 4px 4px var(--main-color) !important;
                   }
                   
                   form input[type="password"] {
-                    height: 45px !important;
-                    padding: 12px 15px !important;
-                    font-size: 15px !important;
-                    padding-right: 45px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important';
+                    padding-right: 50px !important;
                   }
                   
-                  form input[type="password"] + button {
+                  /* Specific selector for password toggle to avoid inheritance */
+                  form div[style*="position: relative"] button[type="button"] {
                     position: absolute !important;
-                    right: 12px !important;
-                    top: '50% !important;
-                    transform: 'translateY(-50%) !important';
-                    font-size: 18px !important;
-                    padding: 3px !important;
+                    right: 8px !important;
+                    top: 50% !important;
+                    transform: translateY(-50%) !important;
+                    font-size: 22px !important;
+                    padding: 8px !important;
                     background: none !important;
                     border: none !important;
+                    box-shadow: none !important;
                     cursor: pointer !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    width: auto !important;
+                    height: auto !important;
+                    margin: 0 !important;
+                    z-index: 10 !important;
                   }
                   
                   form button[type="submit"] {
-                    height: 50px !important;
-                    font-size: 15px !important;
-                    margin-top: 12px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important';
+                    height: 55px !important;
+                    font-size: 16px !important;
+                    margin-top: 16px !important;
+                    border-radius: 10px !important;
+                    border: 2px solid var(--main-color) !important;
+                    box-shadow: 6px 6px var(--main-color) !important;
                   }
                   
-                  form button[type="button"]:last-child {
-                    height: 45px !important;
-                    font-size: 14px !important;
-                    margin-top: 18px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important';
+                  /* Target the Back to Home button specifically by its position in the form */
+                  form > button[type="button"]:last-of-type {
+                    height: 50px !important;
+                    font-size: 15px !important;
+                    margin-top: 20px !important;
+                    border-radius: 10px !important;
+                    border: 2px solid var(--main-color) !important;
+                    box-shadow: 4px 4px var(--main-color) !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    width: 100% !important;
                   }
                   
                   form button span {
-                    font-size: 16px !important;
+                    font-size: 20px !important;
+                  }
+
+                  h1 {
+                    font-size: 26px !important;
+                  }
+                  p {
+                    font-size: 14px !important;
                   }
                 }
-              `}</style>
-              {/* Header with welcome text and language switcher */}
+              `} </style>
+            {/* Header with welcome text and language switcher */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              width: '100%',
+              marginBottom: '25px'
+            }}>
               <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                width: '100%',
-                marginBottom: '25px'
+                flex: 1,
+                textAlign: 'left'
               }}>
-                <div style={{
-                  flex: 1,
-                  textAlign: 'left'
+                <h1 style={{
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  color: 'var(--font-color)',
+                  fontWeight: '700',
+                  fontSize: '28px',
+                  marginBottom: '8px',
+                  lineHeight: '1.2'
                 }}>
-                  <h1 style={{
-                    fontFamily: 'system-ui, -apple-system, sans-serif',
-                    color: 'var(--font-color)',
-                    fontWeight: '700',
-                    fontSize: '28px',
-                    marginBottom: '8px',
-                    lineHeight: '1.2'
-                  }}>
-                    Welcome back
-                  </h1>
-                  <p style={{
-                    fontFamily: 'system-ui, -apple-system, sans-serif',
-                    color: 'var(--font-color-sub)',
-                    fontWeight: '400',
-                    fontSize: '14px',
-                    lineHeight: '1.4'
-                  }}>
-                    Sign in to continue to your secure dashboard
-                  </p>
-                </div>
-                <div style={{
-                  marginLeft: '20px'
+                  Welcome back
+                </h1>
+                <p style={{
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  color: 'var(--font-color-sub)',
+                  fontWeight: '400',
+                  fontSize: '14px',
+                  lineHeight: '1.4'
                 }}>
-                  <LanguageSwitcher isAuthTheme={true} />
-                </div>
+                  Sign in to continue to your secure dashboard
+                </p>
               </div>
-                <div style={{
-                  textAlign: 'center',
-                  marginBottom: '25px',
-                  width: '100%'
+              <div style={{
+                marginLeft: '20px'
+              }}>
+                <LanguageSwitcher isAuthTheme={true} />
+              </div>
+            </div>
+            <div style={{
+              textAlign: 'center',
+              marginBottom: '25px',
+              width: '100%'
+            }}>
+              <div style={{
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                color: 'var(--font-color)',
+                fontWeight: '700',
+                fontSize: '20px',
+                marginBottom: '8px',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                Login
+                <span style={{
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  color: 'var(--font-color-sub)',
+                  fontWeight: '400',
+                  fontSize: '14px'
                 }}>
-                  <div style={{
-                    fontFamily: 'system-ui, -apple-system, sans-serif',
-                    color: 'var(--font-color)',
-                    fontWeight: '700',
-                    fontSize: '20px',
-                    marginBottom: '8px',
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}>
-                    Login
-                    <span style={{
-                      fontFamily: 'system-ui, -apple-system, sans-serif',
-                      color: 'var(--font-color-sub)',
-                      fontWeight: '400',
-                      fontSize: '14px'
-                    }}>
-                      Sign in to your account
-                    </span>
-                  </div>
-                </div>
+                  Sign in to your account
+                </span>
+              </div>
+            </div>
 
+            <input
+              type="text"
+              placeholder="Email or Student ID"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              required
+              style={{
+                width: '100%',
+                height: '65px',
+                borderRadius: '12px',
+                border: '3px solid var(--main-color)',
+                backgroundColor: 'var(--bg-color)',
+                boxShadow: '6px 6px var(--main-color)',
+                fontSize: '18px',
+                fontWeight: '500',
+                color: 'var(--font-color)',
+                padding: '22px 24px',
+                outline: 'none',
+                boxSizing: 'border-box',
+                transition: 'all 0.3s ease'
+              }}
+            />
+
+            <div style={{ position: 'relative', width: '100%' }}>
               <input
-                type="text"
-                placeholder="Email or Student ID"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 style={{
                   width: '100%',
@@ -281,152 +325,128 @@ export const Login = () => {
                   color: 'var(--font-color)',
                   padding: '22px 24px',
                   outline: 'none',
+                  paddingRight: '70px',
                   boxSizing: 'border-box',
                   transition: 'all 0.3s ease'
                 }}
               />
-
-              <div style={{ position: 'relative', width: '100%' }}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    height: '65px',
-                    borderRadius: '12px',
-                    border: '3px solid var(--main-color)',
-                    backgroundColor: 'var(--bg-color)',
-                    boxShadow: '6px 6px var(--main-color)',
-                    fontSize: '18px',
-                    fontWeight: '500',
-                    color: 'var(--font-color)',
-                    padding: '22px 24px',
-                    outline: 'none',
-                    paddingRight: '70px',
-                    boxSizing: 'border-box',
-                    transition: 'all 0.3s ease'
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '20px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '26px',
-                    padding: '6px',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  {showPassword ? "🙈" : "🐵"}
-                </button>
-              </div>
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="oauthButton"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: '16px',
-                  width: '100%',
-                  height: '70px',
-                  borderRadius: '14px',
-                  border: '3px solid var(--main-color)',
-                  backgroundColor: 'var(--bg-color)',
-                  boxShadow: '8px 8px var(--main-color)',
-                  fontSize: '20px',
-                  fontWeight: '700',
-                  color: 'var(--font-color)',
-                  cursor: 'pointer',
-                  transition: 'all 350ms',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  zIndex: '1',
-                  boxSizing: 'border-box',
-                  marginTop: '25px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '10px 10px var(--main-color)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'var(--font-color)';
-                  e.currentTarget.style.transform = 'translateY(0px)';
-                  e.currentTarget.style.boxShadow = '8px 8px var(--main-color)';
-                }}
-              >
-                <span style={{ fontSize: '26px' }}>🔐</span>
-                {submitting ? 'Signing in...' : 'Sign In'}
-              </button>
-
-              {error && (
-                <p style={{
-                  color: '#ff4444',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  textAlign: 'center',
-                  width: '100%'
-                }}>
-                  {error}
-                </p>
-              )}
-
-              {/* Back to Home button at bottom */}
               <button
                 type="button"
-                onClick={() => navigate("/")}
-                className="oauthButton"
+                onClick={() => setShowPassword(!showPassword)}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '14px',
-                  width: '100%',
-                  height: '60px',
-                  borderRadius: '12px',
-                  border: '3px solid var(--main-color)',
-                  backgroundColor: 'var(--bg-color)',
-                  boxShadow: '6px 6px var(--main-color)',
-                  fontSize: '18px',
-                  fontWeight: '600',
-                  color: 'var(--font-color)',
+                  position: 'absolute',
+                  right: '20px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
                   cursor: 'pointer',
-                  transition: 'all 350ms',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  zIndex: '1',
-                  boxSizing: 'border-box',
-                  marginTop: '30px',
-                  justifyContent: 'center'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '8px 8px var(--main-color)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'var(--font-color)';
-                  e.currentTarget.style.transform = 'translateY(0px)';
-                  e.currentTarget.style.boxShadow = '6px 6px var(--main-color)';
+                  fontSize: '26px',
+                  padding: '6px',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                <span style={{ fontSize: '24px' }}>🏠</span>
-                Back to Home
+                {showPassword ? "🙈" : "🐵"}
               </button>
-            </form>
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="oauthButton"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '16px',
+                width: '100%',
+                height: '70px',
+                borderRadius: '14px',
+                border: '3px solid var(--main-color)',
+                backgroundColor: 'var(--bg-color)',
+                boxShadow: '8px 8px var(--main-color)',
+                fontSize: '20px',
+                fontWeight: '700',
+                color: 'var(--font-color)',
+                cursor: 'pointer',
+                transition: 'all 350ms',
+                position: 'relative',
+                overflow: 'hidden',
+                zIndex: '1',
+                boxSizing: 'border-box',
+                marginTop: '25px',
+                textTransform: 'uppercase',
+                letterSpacing: '1px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '10px 10px var(--main-color)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--font-color)';
+                e.currentTarget.style.transform = 'translateY(0px)';
+                e.currentTarget.style.boxShadow = '8px 8px var(--main-color)';
+              }}
+            >
+              <span style={{ fontSize: '26px' }}>🔐</span>
+              {submitting ? 'Signing in...' : 'Sign In'}
+            </button>
+
+            {error && (
+              <p style={{
+                color: '#ff4444',
+                fontSize: '14px',
+                fontWeight: '600',
+                textAlign: 'center',
+                width: '100%'
+              }}>
+                {error}
+              </p>
+            )}
+
+            {/* Back to Home button at bottom */}
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="oauthButton"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '14px',
+                width: '100%',
+                height: '60px',
+                borderRadius: '12px',
+                border: '3px solid var(--main-color)',
+                backgroundColor: 'var(--bg-color)',
+                boxShadow: '6px 6px var(--main-color)',
+                fontSize: '18px',
+                fontWeight: '600',
+                color: 'var(--font-color)',
+                cursor: 'pointer',
+                transition: 'all 350ms',
+                position: 'relative',
+                overflow: 'hidden',
+                zIndex: '1',
+                boxSizing: 'border-box',
+                marginTop: '30px',
+                justifyContent: 'center'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '8px 8px var(--main-color)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--font-color)';
+                e.currentTarget.style.transform = 'translateY(0px)';
+                e.currentTarget.style.boxShadow = '6px 6px var(--main-color)';
+              }}
+            >
+              <span style={{ fontSize: '24px' }}>🏠</span>
+              Back to Home
+            </button>
+          </form>
         </div>
       </div>
     </div>
