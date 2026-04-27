@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import React, { useState, type FormEvent } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { ArrowRight, Home, ShieldCheck, Sparkles } from "lucide-react";
 import Card from "../../components/ui/Card";
@@ -12,6 +12,33 @@ import { getDefaultRouteForRole } from "../../utils/navigation";
 export const Login = () => {
   const navigate = useNavigate();
   const { user, setAuth } = authStore();
+
+  // Add CSS for the button hover effect
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      .oauthButton::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        background-color: #212121;
+        z-index: -1;
+        -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        transition: all 250ms;
+      }
+      .oauthButton:hover::before {
+        width: 100%;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -83,192 +110,323 @@ export const Login = () => {
             </div>
           </div>
 
-          <Card className={`auth-card auth-form-card w-full max-w-md mx-auto lg:mx-0 ${shake ? "shake-card" : ""}`}>
-            {/* Mobile Layout */}
-            <div className="auth-mobile-intro lg:hidden">
-              <div className="flex items-center justify-end gap-3 mb-6">
-                <LanguageSwitcher isAuthTheme={true} />
-              </div>
-              
-              <div className="text-center mb-10">
-                <div className="relative inline-block">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#38a84e]/20 to-[#217a35]/20 blur-xl rounded-2xl -z-10"></div>
-                  <h1 className="relative text-3xl font-bold text-[#1a2e1c] mb-2">Welcome back</h1>
-                  <p className="relative text-sm text-[#556b51] leading-relaxed">
+          {/* Form */}
+            <form onSubmit={handleSubmit} className="form" style={{
+              '--background': '#f0f4f8',
+              '--input-focus': '#2d8cf0',
+              '--font-color': '#1a1a1a',
+              '--font-color-sub': '#64748b',
+              '--bg-color': '#ffffff',
+              '--main-color': '#1a1a1a',
+              padding: '50px',
+              background: 'var(--background)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              gap: '24px',
+              borderRadius: '16px',
+              border: '3px solid var(--main-color)',
+              boxShadow: '8px 8px var(--main-color), 0 4px 12px rgba(0,0,0,0.15)',
+              width: '100%',
+              maxWidth: '500px',
+              margin: '0 auto',
+              minHeight: '700px',
+              boxSizing: 'border-box',
+              position: 'relative',
+              overflow: 'hidden'
+            } as React.CSSProperties}>
+              {/* Mobile-specific styles */}
+              <style>{`
+                @media (max-width: 480px) {
+                  form {
+                    padding: 20px !important;
+                    width: 95vw !important;
+                    max-width: 320px !important;
+                    minHeight: 480px !important;
+                    gap: 12px !important;
+                    borderRadius: '10px !important;
+                    margin: '20px auto !important';
+                  }
+                  
+                  form input {
+                    height: 45px !important;
+                    padding: 12px 15px !important;
+                    font-size: 15px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important';
+                  }
+                  
+                  form input[type="password"] {
+                    height: 45px !important;
+                    padding: 12px 15px !important;
+                    font-size: 15px !important;
+                    padding-right: 45px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important';
+                  }
+                  
+                  form input[type="password"] + button {
+                    position: absolute !important;
+                    right: 12px !important;
+                    top: '50% !important;
+                    transform: 'translateY(-50%) !important';
+                    font-size: 18px !important;
+                    padding: 3px !important;
+                    background: none !important;
+                    border: none !important;
+                    cursor: pointer !important;
+                  }
+                  
+                  form button[type="submit"] {
+                    height: 50px !important;
+                    font-size: 15px !important;
+                    margin-top: 12px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important';
+                  }
+                  
+                  form button[type="button"]:last-child {
+                    height: 45px !important;
+                    font-size: 14px !important;
+                    margin-top: 18px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important';
+                  }
+                  
+                  form button span {
+                    font-size: 16px !important;
+                  }
+                }
+              `}</style>
+              {/* Header with welcome text and language switcher */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                width: '100%',
+                marginBottom: '25px'
+              }}>
+                <div style={{
+                  flex: 1,
+                  textAlign: 'left'
+                }}>
+                  <h1 style={{
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    color: 'var(--font-color)',
+                    fontWeight: '700',
+                    fontSize: '28px',
+                    marginBottom: '8px',
+                    lineHeight: '1.2'
+                  }}>
+                    Welcome back
+                  </h1>
+                  <p style={{
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    color: 'var(--font-color-sub)',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                    lineHeight: '1.4'
+                  }}>
                     Sign in to continue to your secure dashboard
                   </p>
                 </div>
-              </div>
-            </div>
-
-            {/* Desktop Layout */}
-            <div className="auth-desktop-intro hidden lg:flex">
-              <div className="flex-1">
-                <div className="relative">
-                  <div className="absolute -top-20 -left-20 w-40 h-40 bg-gradient-to-br from-[#38a84e]/10 to-transparent rounded-full blur-3xl opacity-60"></div>
-                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-bl from-[#66bb6a]/10 to-transparent rounded-full blur-2xl opacity-40"></div>
-                  <div className="relative bg-gradient-to-r from-[#f7faf4] via-[#eef8ec] to-[#e6f5e9] rounded-3xl p-8 shadow-xl border border-[#ccdec5]/20">
-                    <div className="flex items-center justify-between gap-6">
-                      <div>
-                        <h1 className="text-4xl font-bold text-[#1a2e1c] mb-2">Welcome back</h1>
-                        <p className="text-[#556b51] leading-relaxed">
-                          Sign in to continue to your secure dashboard
-                        </p>
-                      </div>
-                      <LanguageSwitcher isAuthTheme={true} />
-                    </div>
-                  </div>
+                <div style={{
+                  marginLeft: '20px'
+                }}>
+                  <LanguageSwitcher isAuthTheme={true} />
                 </div>
               </div>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="auth-form space-y-6">
-              <div className="space-y-2">
-                <div className="relative">
-                  <label className="block text-sm font-semibold text-[#1a2e1c] mb-3 tracking-wide">
-                    Email Address or Student ID
-                  </label>
-                  <div className="relative">
-                    <Input
-                      label=""
-                      className="auth-input pl-12 pr-4 h-14 text-base rounded-xl border-2 border-[#ccdec5]/30 bg-white/95 backdrop-blur-sm focus:border-[#38a84e] focus:bg-white focus:shadow-[0_0_0_20px_rgba(56,168,78,0.15)] focus:ring-4 focus:ring-[#38a84e]/20 transition-all duration-300"
-                      placeholder="Enter your email or student ID"
-                      value={identifier}
-                      onChange={(e) => setIdentifier(e.target.value)}
-                      required
-                    />
-                    <div className="absolute left-4 top-4 text-[#556b51] transition-colors duration-300">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
+                <div style={{
+                  textAlign: 'center',
+                  marginBottom: '25px',
+                  width: '100%'
+                }}>
+                  <div style={{
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    color: 'var(--font-color)',
+                    fontWeight: '700',
+                    fontSize: '20px',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}>
+                    Login
+                    <span style={{
+                      fontFamily: 'system-ui, -apple-system, sans-serif',
+                      color: 'var(--font-color-sub)',
+                      fontWeight: '400',
+                      fontSize: '14px'
+                    }}>
+                      Sign in to your account
+                    </span>
                   </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <div className="relative">
-                  <label className="block text-sm font-semibold text-[#1a2e1c] mb-3 tracking-wide">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <Input
-                      label=""
-                      type={showPassword ? "text" : "password"}
-                      className="auth-input pl-12 pr-14 h-14 text-base rounded-xl border-2 border-[#ccdec5]/30 bg-white/95 backdrop-blur-sm focus:border-[#38a84e] focus:bg-white focus:shadow-[0_0_0_20px_rgba(56,168,78,0.15)] focus:ring-4 focus:ring-[#38a84e]/20 transition-all duration-300"
-                      placeholder="Enter your secure password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      error={error}
-                      required
-                    />
-                    <div className="absolute left-4 top-4 text-[#556b51] transition-colors duration-300">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-3 text-[#556b51] hover:text-[#38a84e] transition-all duration-300 p-2 rounded-lg hover:bg-[#eef8ec]"
-                      aria-label={showPassword ? "Hide password" : "Show password"}
-                      title={showPassword ? "Hide password" : "Show password"}
-                    >
-                      {showPassword ? (
-                        <span className="text-2xl">🙈</span>
-                      ) : (
-                        <span className="text-2xl">🐵</span>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <input
+                type="text"
+                placeholder="Email or Student ID"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  height: '65px',
+                  borderRadius: '12px',
+                  border: '3px solid var(--main-color)',
+                  backgroundColor: 'var(--bg-color)',
+                  boxShadow: '6px 6px var(--main-color)',
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  color: 'var(--font-color)',
+                  padding: '22px 24px',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  transition: 'all 0.3s ease'
+                }}
+              />
 
-              <div className="pt-6">
+              <div style={{ position: 'relative', width: '100%' }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    height: '65px',
+                    borderRadius: '12px',
+                    border: '3px solid var(--main-color)',
+                    backgroundColor: 'var(--bg-color)',
+                    boxShadow: '6px 6px var(--main-color)',
+                    fontSize: '18px',
+                    fontWeight: '500',
+                    color: 'var(--font-color)',
+                    padding: '22px 24px',
+                    outline: 'none',
+                    paddingRight: '70px',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.3s ease'
+                  }}
+                />
                 <button
-                  type="submit"
-                  disabled={submitting}
-                  className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#38a84e] via-[#2f8a3e] to-[#1a5f2a] px-8 py-4 text-base font-bold text-white shadow-2xl shadow-[#38a84e]/30 backdrop-blur-md transition-all duration-700 hover:shadow-[#38a84e]/40 hover:shadow-[#217a35]/20 hover:-translate-y-1 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-[#38a84e]/60 focus:ring-offset-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:backdrop-blur-none"
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '20px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '26px',
+                    padding: '6px',
+                    transition: 'all 0.2s ease'
+                  }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#4caf50] via-[#66bb6a] to-[#2e7d32] opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 transition-all duration-2000 group-hover:translate-x-full"></div>
-                  <div className="relative flex items-center justify-center gap-4">
-                    {submitting ? (
-                      <div className="flex items-center gap-4">
-                        <div className="relative">
-                          <div className="w-8 h-8 rounded-full border-2 border-white/30 flex items-center justify-center">
-                            <div className="w-6 h-6 rounded-full border border-white/50 flex items-center justify-center">
-                              <div className="w-4 h-4 rounded-full bg-white/80 flex items-center justify-center">
-                                <div className="w-2 h-2 rounded-full bg-white" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="absolute inset-0 rounded-full border-2 border-white/20 animate-spin-slow"></div>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-white/95 font-semibold text-sm">Authenticating</span>
-                          <span className="text-white/70 font-medium text-xs">Securing session...</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <div className="relative">
-                          <div className="absolute -inset-2 bg-gradient-to-r from-[#38a84e]/40 to-[#217a35]/40 rounded-full blur-xl opacity-0 transition-opacity duration-700 group-hover:opacity-100 scale-150"></div>
-                          <ArrowRight
-                            size={22}
-                            className="relative transition-transform duration-700 group-hover:translate-x-2 group-hover:scale-125 group-hover:rotate-3 text-white drop-shadow-2xl filter drop-shadow-glow"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
-                        </div>
-
-                        <div className="relative">
-                          <span className="font-extrabold tracking-wider transition-all duration-700 group-hover:tracking-widest group-hover:text-white letter-spacing-0.05em">
-                            SIGN IN
-                          </span>
-                          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#38a84e]/10 to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="absolute inset-0 rounded-2xl border border-white/30 opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:border-white/50"></div>
-                  <div className="absolute inset-1 rounded-2xl border border-white/20 opacity-0 transition-all duration-1000 group-hover:opacity-100 scale-110"></div>
-                  <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-[#4caf50] to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100 blur-sm"></div>
-                  <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-[#66bb6a] to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100 blur-sm"></div>
-                  <div className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 scale-0 transition-all duration-300 group-active:scale-150 group-active:opacity-100"></div>
+                  {showPassword ? "🙈" : "🐵"}
                 </button>
               </div>
-            </form>
 
-            {error && (
-              <p className="mt-4 text-center text-sm font-semibold text-rose-600">
-                {error}
-              </p>
-            )}
-
-            <div className="mt-8 text-center">
               <button
-                onClick={() => navigate("/")}
-                className="group relative inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#f7faf4] to-[#eef8ec] px-6 py-3 text-sm font-medium text-[#1a2e1c] shadow-lg shadow-[#38a84e]/15 transition-all duration-300 hover:shadow-xl hover:shadow-[#38a84e]/25 hover:-translate-y-0.5 hover:bg-gradient-to-r hover:from-white hover:to-[#e6f5e9] focus:outline-none focus:ring-2 focus:ring-[#38a84e] focus:ring-offset-2"
+                type="submit"
+                disabled={submitting}
+                className="oauthButton"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '16px',
+                  width: '100%',
+                  height: '70px',
+                  borderRadius: '14px',
+                  border: '3px solid var(--main-color)',
+                  backgroundColor: 'var(--bg-color)',
+                  boxShadow: '8px 8px var(--main-color)',
+                  fontSize: '20px',
+                  fontWeight: '700',
+                  color: 'var(--font-color)',
+                  cursor: 'pointer',
+                  transition: 'all 350ms',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  zIndex: '1',
+                  boxSizing: 'border-box',
+                  marginTop: '25px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#ffffff';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow = '10px 10px var(--main-color)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--font-color)';
+                  e.currentTarget.style.transform = 'translateY(0px)';
+                  e.currentTarget.style.boxShadow = '8px 8px var(--main-color)';
+                }}
               >
-                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#38a84e]/8 to-[#217a35]/8 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-                <Home
-                  size={18}
-                  className="relative z-10 transition-transform duration-300 group-hover:scale-110 group-hover:text-[#38a84e]"
-                />
-                <span className="relative z-10 transition-all duration-300 group-hover:text-[#217a35]">Back to Home</span>
-                <svg
-                  className="relative z-10 h-4 w-4 text-[#556b51] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#38a84e]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <span style={{ fontSize: '26px' }}>🔐</span>
+                {submitting ? 'Signing in...' : 'Sign In'}
               </button>
-            </div>
-          </Card>
+
+              {error && (
+                <p style={{
+                  color: '#ff4444',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  textAlign: 'center',
+                  width: '100%'
+                }}>
+                  {error}
+                </p>
+              )}
+
+              {/* Back to Home button at bottom */}
+              <button
+                type="button"
+                onClick={() => navigate("/")}
+                className="oauthButton"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  width: '100%',
+                  height: '60px',
+                  borderRadius: '12px',
+                  border: '3px solid var(--main-color)',
+                  backgroundColor: 'var(--bg-color)',
+                  boxShadow: '6px 6px var(--main-color)',
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  color: 'var(--font-color)',
+                  cursor: 'pointer',
+                  transition: 'all 350ms',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  zIndex: '1',
+                  boxSizing: 'border-box',
+                  marginTop: '30px',
+                  justifyContent: 'center'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#ffffff';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '8px 8px var(--main-color)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--font-color)';
+                  e.currentTarget.style.transform = 'translateY(0px)';
+                  e.currentTarget.style.boxShadow = '6px 6px var(--main-color)';
+                }}
+              >
+                <span style={{ fontSize: '24px' }}>🏠</span>
+                Back to Home
+              </button>
+            </form>
         </div>
       </div>
     </div>
