@@ -3,6 +3,7 @@ import { useLanguage } from "../../context/LanguageContext";
 
 type LanguageSwitcherProps = {
   dark?: boolean;
+  isAuthTheme?: boolean;
 };
 
 const GlobeIcon = () => (
@@ -23,10 +24,13 @@ const GlobeIcon = () => (
   </svg>
 );
 
-export const LanguageSwitcher = ({ dark = false }: LanguageSwitcherProps) => {
+export const LanguageSwitcher = ({ dark = false, isAuthTheme: propIsAuthTheme }: LanguageSwitcherProps) => {
   const { currentLanguage, currentLanguageMeta, languages, ready, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
+
+  // Check if we're in auth theme - use prop if provided, otherwise detect from DOM
+  const isAuthTheme = propIsAuthTheme || (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'auth');
 
   useEffect(() => {
     const handleClickAway = (event: MouseEvent) => {
@@ -54,30 +58,54 @@ export const LanguageSwitcher = ({ dark = false }: LanguageSwitcherProps) => {
 
   const triggerClassName = dark
     ? "landing-language-trigger"
-    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50";
+    : isAuthTheme 
+      ? "border-[#ccdec5] bg-white text-[#1a2e1c] hover:bg-[#eef8ec]"
+      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50";
   const panelClassName = dark
     ? "landing-language-panel"
-    : "border-slate-200 bg-white text-slate-900 shadow-2xl";
-  const inactiveTextClassName = dark ? "landing-language-muted" : "text-slate-500";
-  const headingClassName = dark ? "landing-language-heading" : "text-slate-900";
+    : isAuthTheme
+      ? "border-[#ccdec5] bg-white text-[#1a2e1c] shadow-2xl"
+      : "border-slate-200 bg-white text-slate-900 shadow-2xl";
+  const inactiveTextClassName = dark 
+    ? "landing-language-muted" 
+    : isAuthTheme 
+      ? "text-[#556b51]"
+      : "text-slate-500";
+  const headingClassName = dark 
+    ? "landing-language-heading" 
+    : isAuthTheme
+      ? "text-[#1a2e1c]"
+      : "text-slate-900";
   const closeButtonClassName = dark
     ? "landing-language-close"
-    : "border-slate-200 bg-white text-slate-500 shadow-sm";
+    : isAuthTheme
+      ? "border-[#ccdec5] bg-white text-[#556b51] shadow-sm"
+      : "border-slate-200 bg-white text-slate-500 shadow-sm";
   const activeClassName = dark
     ? "landing-language-option-active"
-    : "border-blue-200 bg-blue-50 text-blue-700";
+    : isAuthTheme
+      ? "border-[#38a84e] bg-[#e6f5e9] text-[#217a35]"
+      : "border-blue-200 bg-blue-50 text-blue-700";
   const inactiveClassName = dark
     ? "landing-language-option"
-    : "border-transparent hover:bg-slate-50";
+    : isAuthTheme
+      ? "border-transparent hover:bg-[#eef8ec]"
+      : "border-transparent hover:bg-slate-50";
   const activeBadgeClassName = dark
     ? "landing-language-badge-active"
-    : "bg-blue-600 text-white";
+    : isAuthTheme
+      ? "bg-[#38a84e] text-white"
+      : "bg-blue-600 text-white";
   const inactiveBadgeClassName = dark
     ? "landing-language-badge"
-    : "bg-slate-100 text-slate-500";
+    : isAuthTheme
+      ? "bg-[#f7faf4] text-[#556b51]"
+      : "bg-slate-100 text-slate-500";
   const unavailableBadgeClassName = dark
     ? "landing-language-badge-unavailable"
-    : "bg-amber-100 text-amber-700";
+    : isAuthTheme
+      ? "bg-amber-100 text-amber-700"
+      : "bg-amber-100 text-amber-700";
 
   return (
     <div
@@ -110,12 +138,12 @@ export const LanguageSwitcher = ({ dark = false }: LanguageSwitcherProps) => {
           />
 
           <div
-            className={`fixed left-3 right-3 top-16 z-50 max-h-[calc(100vh-5.5rem)] overflow-hidden rounded-[2rem] border border-slate-200 p-0 shadow-[0_24px_60px_rgba(15,23,42,0.22)] md:absolute md:right-0 md:top-14 md:left-auto md:bottom-auto md:z-40 md:w-[min(92vw,19rem)] md:rounded-[1.5rem] md:border md:p-3 ${panelClassName}`}
+            className={`fixed left-3 right-3 top-16 z-50 max-h-[calc(100vh-5.5rem)] overflow-hidden rounded-[2rem] border ${isAuthTheme ? 'border-[#ccdec5] shadow-[0_24px_60px_rgba(56,168,78,0.22)]' : 'border-slate-200 shadow-[0_24px_60px_rgba(15,23,42,0.22)]'} p-0 md:absolute md:right-0 md:top-14 md:left-auto md:bottom-auto md:z-40 md:w-[min(92vw,19rem)] md:rounded-[1.5rem] md:border md:p-3 ${panelClassName}`}
             role="menu"
             aria-label="Language options"
             translate="no"
           >
-            <div className="border-b border-slate-200 px-4 pt-4 md:border-0 md:px-1 md:pb-3 md:pt-0">
+            <div className={`border-b px-4 pt-4 md:border-0 md:px-1 md:pb-3 md:pt-0 ${isAuthTheme ? 'border-[#ccdec5]' : 'border-slate-200'}`}>
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className={`text-base font-semibold md:text-sm ${headingClassName}`}>Choose language</p>
