@@ -2672,6 +2672,21 @@ body > .skiptranslate,
     animation: ms-fadeSlideUp 0.6s ease both;
   }
 
+  .login-card {
+    max-width: 500px;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .login-card .password-toggle {
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .login-card .password-toggle:hover {
+    transform: translateY(-50%) scale(1.05);
+    color: var(--primary);
+  }
+
   .auth-mobile-intro { margin-bottom: 1.5rem; }
   .auth-desktop-intro { display: none; }
 
@@ -3303,6 +3318,19 @@ body > .skiptranslate,
   .landing-flow-item { flex-direction: column; }
   .auth-shell { padding: 1rem; }
   .auth-form-card { padding: 1.5rem; }
+  .login-card input {
+    min-height: 52px;
+    font-size: 1rem;
+    padding: 16px 18px;
+  }
+  .login-card button[type="submit"],
+  .login-card button[type="button"] {
+    min-height: 52px;
+    font-size: 1rem;
+  }
+  .login-card .password-toggle {
+    right: 16px;
+  }
   .landing-hero-stats { gap: 1.5rem; }
   .landing-hero-stat-divider { display: none; }
   .landing-hero-subject-badge { display: none; }

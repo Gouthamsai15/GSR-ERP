@@ -1,9 +1,6 @@
 import React, { useState, type FormEvent } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { ArrowRight, Home, ShieldCheck, Sparkles } from "lucide-react";
-import Card from "../../components/ui/Card";
-import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
+import { Eye, EyeOff, ShieldCheck, Sparkles } from "lucide-react";
 import LanguageSwitcher from "../../components/layout/LanguageSwitcher";
 import { authStore } from "../../store/authStore";
 import { loginWithIdentifier } from "../../services/authService";
@@ -111,14 +108,14 @@ export const Login = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="form" style={{
+          <form onSubmit={handleSubmit} className="auth-form-card login-card" style={{
             '--background': '#f0f4f8',
             '--input-focus': '#2d8cf0',
             '--font-color': '#1a1a1a',
             '--font-color-sub': '#64748b',
             '--bg-color': '#ffffff',
             '--main-color': '#1a1a1a',
-            padding: '50px',
+            padding: '3rem',
             background: 'var(--background)',
             display: 'flex',
             flexDirection: 'column',
@@ -131,129 +128,10 @@ export const Login = () => {
             width: '100%',
             maxWidth: '500px',
             margin: '0 auto',
-            minHeight: '700px',
             boxSizing: 'border-box',
             position: 'relative',
             overflow: 'hidden'
           } as React.CSSProperties}>
-            {/* Mobile-specific styles */}
-            <style>{`
-                @media (max-width: 480px) {
-                  form {
-                    padding: 20px !important;
-                    width: 95vw !important;
-                    max-width: 320px !important;
-                    minHeight: 480px !important;
-                    gap: 12px !important;
-                    borderRadius: '10px !important;
-                    margin: '20px auto !important';
-                  }
-                  
-                  form input {
-                    height: 45px !important;
-                    padding: 12px 15px !important;
-                    font-size: 15px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important;
-                  }
-                  
-                  form input[type="password"] {
-                    height: 45px !important;
-                    padding: 12px 15px !important;
-                    font-size: 15px !important;
-                    padding-right: 45px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important;
-                  }
-                  
-                  form input[type="password"] + button {
-                    position: absolute !important;
-                    right: 12px !important;
-                    top: '50% !important;
-                    transform: 'translateY(-50%) !important;
-                    font-size: 18px !important;
-                    padding: 3px !important;
-                    background: none !important;
-                    border: none !important;
-                    cursor: pointer !important;
-                  }
-                  
-                  .form button[class*="oauthButton"] + div button span span span {
-                    font-size: 14px !important;
-                    font-weight: 600 !important;
-                  }
-                  
-                  .form button[class*="oauthButton"] + div button span span span + span {
-                    font-size: 12px !important;
-                    font-weight: 400 !important;
-                  }
-                  
-                  .form button[class*="oauthButton"] + div button span span {
-                    font-size: 10px !important;
-                    font-weight: 700 !important;
-                  }
-                  
-                  /* Make language options very small */
-                  .form button[class*="oauthButton"] + div button {
-                    padding: 4px 8px !important;
-                    font-size: 10px !important;
-                    min-height: 30px !important;
-                  }
-                  
-                  .form button[class*="oauthButton"] + div {
-                    min-width: 160px !important;
-                    max-width: 200px !important;
-                    font-size: 10px !important;
-                  }
-                  
-                  /* Make dropdown header smaller */
-                  .form button[class*="oauthButton"] + div > div {
-                    padding: 8px 12px !important;
-                  }
-                  
-                  .form button[class*="oauthButton"] + div > div p {
-                    font-size: 10px !important;
-                    margin-bottom: 2px !important;
-                  }
-                  
-                  .form button[class*="oauthButton"] + div > div p + p {
-                    font-size: 8px !important;
-                  }
-                  
-                  form button[type="submit"] {
-                    height: 50px !important;
-                    font-size: 15px !important;
-                    margin-top: 12px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important;
-                  }
-                  
-                  form button[type="button"]:last-child {
-                    height: 45px !important;
-                    font-size: 14px !important;
-                    margin-top: 18px !important;
-                    border-radius: '8px !important;
-                    border: '2px solid var(--main-color) !important;
-                    border: 2px solid var(--main-color) !important;
-                    box-shadow: 4px 4px var(--main-color) !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    width: 100% !important;
-                  }
-                  
-                  form button span {
-                    font-size: 20px !important;
-                  }
-
-                  h1 {
-                    font-size: 26px !important;
-                  }
-                  p {
-                    font-size: 14px !important;
-                  }
-                }
-              `} </style>
             {/* Header with welcome text and language switcher */}
             <div style={{
               display: 'flex',
@@ -368,20 +246,26 @@ export const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                className="password-toggle"
                 style={{
                   position: 'absolute',
-                  right: '20px',
+                  right: '18px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  background: 'none',
+                  background: 'transparent',
                   border: 'none',
                   cursor: 'pointer',
-                  fontSize: '26px',
-                  padding: '6px',
-                  transition: 'all 0.2s ease'
+                  display: 'grid',
+                  placeItems: 'center',
+                  width: '42px',
+                  height: '42px',
+                  color: 'var(--font-color)',
+                  padding: '0',
+                  transition: 'transform 0.2s ease'
                 }}
               >
-                {showPassword ? "🙈" : "🐵"}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
 
