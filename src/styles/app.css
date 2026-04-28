@@ -34,7 +34,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  font-family: 'Nunito', 'DM Sans', 'Segoe UI', sans-serif;
+  font-family: 'Plus Jakarta Sans', 'DM Sans', 'Segoe UI', sans-serif;
   background: #f3f7f0;
   color: #1a2e1c;
 
@@ -70,7 +70,7 @@ body {
   --radius-card: 20px;
   --radius-btn: 14px;
   --radius-input: 13px;
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
 }
 
 body.native-app {
@@ -108,7 +108,7 @@ body.native-app {
   margin: 0;
   font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
   font-size: clamp(2rem, 5vw, 2.8rem);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.08em;
   color: #15311e;
 }
@@ -140,7 +140,7 @@ body.native-app {
 .launch-screen__status-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 400;
   color: #32503d;
 }
 
@@ -623,7 +623,7 @@ body > .skiptranslate,
     box-shadow: 0 6px 24px rgba(56, 168, 78, 0.40);
     border-radius: 16px;
     font-family: var(--font-display);
-    font-weight: 800;
+    font-weight: 400;
   }
 
   [data-theme="super-admin"] .layout-brand-mark {
@@ -631,14 +631,14 @@ body > .skiptranslate,
     box-shadow: 0 6px 24px rgba(240, 90, 40, 0.45);
     border-radius: 14px;
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 400;
   }
 
   /* ── NAV SECTION LABEL ── */
   .layout-section-label {
     color: var(--text-muted);
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     font-family: 'DM Sans', sans-serif;
@@ -658,7 +658,7 @@ body > .skiptranslate,
     border-radius: 12px;
     transition: background 150ms ease, color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 400;
     font-family: 'DM Sans', sans-serif;
   }
 
@@ -682,7 +682,7 @@ body > .skiptranslate,
     background: var(--nav-active-bg);
     color: var(--nav-active-text);
     box-shadow: var(--shadow-soft);
-    font-weight: 600;
+    font-weight: 400;
   }
 
   [data-theme="school"] .layout-nav-item-active {
@@ -690,7 +690,7 @@ body > .skiptranslate,
     background: var(--nav-active-bg);
     color: var(--nav-active-text);
     box-shadow: 0 2px 14px rgba(56, 168, 78, 0.14);
-    font-weight: 600;
+    font-weight: 400;
   }
 
   [data-theme="super-admin"] .layout-nav-item-active {
@@ -698,7 +698,7 @@ body > .skiptranslate,
     color: #ffa07a;
     border-color: rgba(240, 90, 40, 0.30);
     box-shadow: none;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .layout-nav-indicator { background: var(--nav-active-border); }
@@ -894,7 +894,7 @@ body > .skiptranslate,
     background: linear-gradient(145deg, #38a84e 0%, #1e8a38 100%);
     box-shadow: 0 6px 24px rgba(56, 168, 78, 0.34);
     border-radius: 14px;
-    font-weight: 600;
+    font-weight: 400;
     font-family: 'DM Sans', sans-serif;
     color: #ffffff;
   }
@@ -907,7 +907,7 @@ body > .skiptranslate,
     border-radius: 12px;
     color: #ffffff;
     font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0;
   }
 
@@ -1008,7 +1008,7 @@ body > .skiptranslate,
     background: var(--surface-muted);
     color: var(--text-muted);
     font-size: 0.70rem;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-family: 'DM Sans', sans-serif;
@@ -1138,7 +1138,7 @@ body > .skiptranslate,
   /* ── NAVBAR LOGO ── */
   .landing-nav-logo {
     font-family: 'Lexend', 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800;
+    font-weight: 400;
     font-size: 1.3rem;
     letter-spacing: -0.05em;
     color: #eef2ff;
@@ -1170,7 +1170,7 @@ body > .skiptranslate,
   .landing-nav-link {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 400;
     color: #7b93b8;
     transition: color 180ms ease;
     letter-spacing: -0.01em;
@@ -1181,7 +1181,7 @@ body > .skiptranslate,
   .landing-nav-cta {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.875rem;
-    font-weight: 700;
+    font-weight: 400;
     padding: 0.6rem 1.35rem;
     border-radius: 10px;
     background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
@@ -1255,7 +1255,7 @@ body > .skiptranslate,
     border-radius: 999px;
     padding: 0.45rem 1rem 0.45rem 0.65rem;
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--scholar-cyan);
@@ -1293,7 +1293,7 @@ body > .skiptranslate,
     padding: 0.55rem 0.85rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.72rem;
-    font-weight: 600;
+    font-weight: 400;
     color: #c8d5e8;
     white-space: nowrap;
     pointer-events: none;
@@ -1362,7 +1362,7 @@ body > .skiptranslate,
     max-width: 60rem;
     font-family: 'Lexend', 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(2.8rem, 7vw, 5.2rem);
-    font-weight: 800;
+    font-weight: 400;
     line-height: 0.96;
     letter-spacing: -0.04em;
     color: #eef2ff;
@@ -1371,7 +1371,7 @@ body > .skiptranslate,
 
   .landing-title strong,
   .landing-title b {
-    font-weight: 800;
+    font-weight: 400;
     font-style: normal;
     background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #34d399 100%);
     -webkit-background-clip: text;
@@ -1411,7 +1411,7 @@ body > .skiptranslate,
     border-radius: 13px !important;
     background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%) !important;
     color: #060a12 !important;
-    font-weight: 800 !important;
+    font-weight: 400 !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 0.95rem !important;
     letter-spacing: -0.02em;
@@ -1452,7 +1452,7 @@ body > .skiptranslate,
   .landing-hero-stat-value {
     font-family: 'Lexend', sans-serif;
     font-size: 2rem;
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: -0.05em;
     line-height: 1;
     background: linear-gradient(135deg, #eef2ff 0%, #38bdf8 100%);
@@ -1464,7 +1464,7 @@ body > .skiptranslate,
   .landing-hero-stat-label {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.70rem;
-    font-weight: 600;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: #4b6080;
@@ -1558,7 +1558,7 @@ body > .skiptranslate,
 
   .landing-metric-value {
     font-size: 2.25rem;
-    font-weight: 800;
+    font-weight: 400;
     font-family: 'Lexend', sans-serif;
     letter-spacing: -0.05em;
     line-height: 1;
@@ -1571,7 +1571,7 @@ body > .skiptranslate,
   .landing-metric-label {
     margin-top: 0.6rem;
     font-size: 0.70rem;
-    font-weight: 600;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: #4b6080;
@@ -1585,7 +1585,7 @@ body > .skiptranslate,
     background: rgba(56, 189, 248, 0.09);
     padding: 0.45rem 0.9rem;
     font-size: 0.74rem;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--scholar-cyan);
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
@@ -1595,7 +1595,7 @@ body > .skiptranslate,
     background: rgba(56, 189, 248, 0.09);
     color: var(--scholar-cyan);
     font-size: 0.72rem;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0.08em;
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
@@ -1605,7 +1605,7 @@ body > .skiptranslate,
     background: transparent !important;
     color: var(--scholar-cyan) !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
   }
 
   .landing-outline-button:hover {
@@ -1629,7 +1629,7 @@ body > .skiptranslate,
     gap: 0.6rem;
     color: var(--scholar-cyan);
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -1647,14 +1647,14 @@ body > .skiptranslate,
   .landing-section-title {
     font-family: 'Lexend', 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: -0.04em;
     line-height: 1.05;
     color: #eef2ff;
   }
 
   .landing-section-title strong {
-    font-weight: 800;
+    font-weight: 400;
     color: var(--scholar-cyan);
   }
 
@@ -1707,14 +1707,14 @@ body > .skiptranslate,
   .landing-insight-title,
   .landing-flow-title {
     color: #eef2ff;
-    font-weight: 700;
+    font-weight: 400;
     font-family: 'Lexend', sans-serif;
     letter-spacing: -0.02em;
   }
 
   .landing-chart-figure {
     font-size: 2.4rem;
-    font-weight: 800;
+    font-weight: 400;
     color: #eef2ff;
     font-family: 'Lexend', sans-serif;
     letter-spacing: -0.05em;
@@ -1855,7 +1855,7 @@ body > .skiptranslate,
   .landing-feature-title {
     font-family: 'Lexend', sans-serif;
     font-size: 1.05rem;
-    font-weight: 700;
+    font-weight: 400;
     color: #eef2ff;
     margin-bottom: 0.6rem;
     letter-spacing: -0.03em;
@@ -1880,7 +1880,7 @@ body > .skiptranslate,
     border: 1px solid rgba(56, 189, 248, 0.24);
     color: var(--scholar-cyan);
     font-size: 0.9rem;
-    font-weight: 700;
+    font-weight: 400;
     font-family: 'Lexend', sans-serif;
   }
 
@@ -1911,7 +1911,7 @@ body > .skiptranslate,
     border: 1px solid rgba(56, 189, 248, 0.24);
     color: var(--scholar-cyan);
     font-size: 0.85rem;
-    font-weight: 700;
+    font-weight: 400;
   }
 
   .landing-module-list,
@@ -1938,7 +1938,7 @@ body > .skiptranslate,
     border: 1px solid rgba(56, 189, 248, 0.22);
     color: var(--scholar-cyan);
     font-size: 0.9rem;
-    font-weight: 700;
+    font-weight: 400;
     font-family: 'Lexend', sans-serif;
   }
 
@@ -1953,7 +1953,7 @@ body > .skiptranslate,
     border-radius: 999px;
     padding: 0.3rem 0.7rem;
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--scholar-amber);
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
@@ -1967,7 +1967,7 @@ body > .skiptranslate,
     height: 2.5rem;
     border-radius: 0.75rem;
     font-family: 'Lexend', sans-serif;
-    font-weight: 800;
+    font-weight: 400;
     font-size: 1rem;
     letter-spacing: -0.03em;
   }
@@ -2043,7 +2043,7 @@ body > .skiptranslate,
     gap: 0.5rem;
     color: var(--scholar-cyan);
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -2053,7 +2053,7 @@ body > .skiptranslate,
   .landing-cta-title {
     font-family: 'Lexend', sans-serif;
     font-size: clamp(2rem, 4vw, 3.25rem);
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: -0.05em;
     color: #eef2ff;
     line-height: 1.05;
@@ -2061,7 +2061,7 @@ body > .skiptranslate,
   }
 
   .landing-cta-title strong {
-    font-weight: 800;
+    font-weight: 400;
     background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -2072,7 +2072,7 @@ body > .skiptranslate,
     border-radius: 14px !important;
     background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%) !important;
     color: #060a12 !important;
-    font-weight: 800 !important;
+    font-weight: 400 !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 0.95rem !important;
     box-shadow: 0 14px 40px rgba(56, 189, 248, 0.30);
@@ -2095,7 +2095,7 @@ body > .skiptranslate,
 
   .landing-footer-brand {
     font-family: 'Lexend', sans-serif;
-    font-weight: 800;
+    font-weight: 400;
     font-size: 1.15rem;
     color: #eef2ff;
     letter-spacing: -0.04em;
@@ -2148,7 +2148,7 @@ body > .skiptranslate,
   .landing-testimonial-name {
     font-family: 'Lexend', sans-serif;
     font-size: 0.9rem;
-    font-weight: 700;
+    font-weight: 400;
     color: #eef2ff;
     margin-top: 1.25rem;
     letter-spacing: -0.02em;
@@ -2283,7 +2283,7 @@ body > .skiptranslate,
     padding: 0.5rem 0.85rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.70rem;
-    font-weight: 600;
+    font-weight: 400;
     pointer-events: none;
     animation: ms-float 7s ease-in-out infinite;
     white-space: nowrap;
@@ -2367,7 +2367,7 @@ body > .skiptranslate,
     align-items: center;
     justify-content: center;
     font-family: 'Syne', sans-serif;
-    font-weight: 800;
+    font-weight: 400;
     font-size: 1.1rem;
     color: white;
     box-shadow: 0 6px 20px rgba(56, 168, 78, 0.35);
@@ -2387,7 +2387,7 @@ body > .skiptranslate,
 
   .auth-brand-name {
     font-family: 'Syne', sans-serif;
-    font-weight: 800;
+    font-weight: 400;
     font-size: 1.2rem;
     letter-spacing: -0.03em;
     color: var(--text);
@@ -2416,7 +2416,7 @@ body > .skiptranslate,
   .auth-divider-text {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
     color: var(--text-muted);
     letter-spacing: 0.06em;
   }
@@ -2437,7 +2437,7 @@ body > .skiptranslate,
     background: var(--surface);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 160ms ease;
@@ -2473,7 +2473,7 @@ body > .skiptranslate,
     border-radius: 999px;
     padding: 0.55rem 1rem;
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.20em;
     font-family: 'DM Sans', sans-serif;
@@ -2521,7 +2521,7 @@ body > .skiptranslate,
   [data-theme="landing"] .auth-showcase-title,
   [data-theme="landing"] .auth-title {
     font-family: 'Lexend', sans-serif;
-    font-weight: 800;
+    font-weight: 400;
     color: #eef2ff;
     letter-spacing: -0.04em;
   }
@@ -2529,7 +2529,7 @@ body > .skiptranslate,
   .auth-showcase-title {
     max-width: 28rem;
     font-size: clamp(2.1rem, 3.4vw, 3rem);
-    font-weight: 800;
+    font-weight: 400;
     line-height: 1.08;
   }
 
@@ -2618,7 +2618,7 @@ body > .skiptranslate,
     letter-spacing: 0.18em;
     color: #94a3b8;
     font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   [data-theme="super-admin"] .auth-showcase-stat-label { color: var(--text-muted); }
@@ -2632,7 +2632,7 @@ body > .skiptranslate,
   .auth-showcase-stat-title {
     margin-top: 0.35rem;
     font-size: 1.05rem;
-    font-weight: 800;
+    font-weight: 400;
     color: #ffffff;
     font-family: 'Syne', sans-serif;
     letter-spacing: -0.03em;
@@ -2677,7 +2677,7 @@ body > .skiptranslate,
 
   .auth-title {
     font-size: clamp(1.75rem, 3vw, 2.25rem);
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: -0.03em;
     font-family: 'Syne', sans-serif;
     color: var(--text);
@@ -2695,7 +2695,7 @@ body > .skiptranslate,
     display: block;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.82rem;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-muted);
     margin-bottom: 0.45rem;
     letter-spacing: 0.01em;
@@ -2709,7 +2709,7 @@ body > .skiptranslate,
   [data-theme="super-admin"] .auth-label { color: var(--text-muted); }
 
   .auth-form { margin-top: 1.75rem; display: grid; gap: 1.25rem; }
-  .auth-submit { min-height: 3.25rem; font-family: 'DM Sans', sans-serif !important; font-weight: 600 !important; font-size: 0.95rem !important; }
+  .auth-submit { min-height: 3.25rem; font-family: 'DM Sans', sans-serif !important; font-weight: 400 !important; font-size: 0.95rem !important; }
 
   /* ── AUTH FOOTER LINK ── */
   .auth-footer-link {
@@ -2722,7 +2722,7 @@ body > .skiptranslate,
 
   .auth-footer-link a {
     color: var(--primary);
-    font-weight: 600;
+    font-weight: 400;
     text-decoration: none;
     transition: opacity 160ms ease;
   }
@@ -2757,7 +2757,7 @@ body > .skiptranslate,
     background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%) !important;
     border-color: transparent !important;
     color: #060a12 !important;
-    font-weight: 800 !important;
+    font-weight: 400 !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 0.95rem !important;
     box-shadow: 0 12px 32px rgba(56, 189, 248, 0.26) !important;
@@ -3039,7 +3039,7 @@ body > .skiptranslate,
 
   .console-panel { border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow-soft); border-radius: var(--radius-card); }
 
-  .console-kicker { color: var(--text-muted); font-size: 0.70rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'DM Sans', sans-serif; }
+  .console-kicker { color: var(--text-muted); font-size: 0.70rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'DM Sans', sans-serif; }
   .console-hero-title { color: var(--text); font-family: 'Syne', sans-serif; }
   .console-hero-description { color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
   .console-stat-label { color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
@@ -3073,15 +3073,15 @@ body > .skiptranslate,
   [data-theme="super-admin"] .console-hero .console-stat-detail { color: #e2e8f0; }
 
   /* ── SUPER-ADMIN BADGE UTILITIES ── */
-  [data-theme="super-admin"] .sa-badge-gold { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="super-admin"] .sa-badge-violet { background: #f5f3ff; border: 1px solid #ddd6fe; color: #5b21b6; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="super-admin"] .sa-badge-cyan { background: #ecfeff; border: 1px solid #a5f3fc; color: #155e75; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="super-admin"] .sa-badge-amber { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="super-admin"] .sa-badge-orange { background: #fff2ee; border: 1px solid #fdc8b4; color: #c8411a; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-badge-gold { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-badge-violet { background: #f5f3ff; border: 1px solid #ddd6fe; color: #5b21b6; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-badge-cyan { background: #ecfeff; border: 1px solid #a5f3fc; color: #155e75; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-badge-amber { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-badge-orange { background: #fff2ee; border: 1px solid #fdc8b4; color: #c8411a; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
 
-  [data-theme="super-admin"] .sa-number-gold  { color: #b45309; font-weight: 700; font-family: 'Syne', sans-serif; }
-  [data-theme="super-admin"] .sa-number-glow  { color: #f05a28; font-weight: 700; font-family: 'Syne', sans-serif; }
-  [data-theme="super-admin"] .sa-number-cyan  { color: #0e7490; font-weight: 700; font-family: 'Syne', sans-serif; }
+  [data-theme="super-admin"] .sa-number-gold  { color: #b45309; font-weight: 400; font-family: 'Syne', sans-serif; }
+  [data-theme="super-admin"] .sa-number-glow  { color: #f05a28; font-weight: 400; font-family: 'Syne', sans-serif; }
+  [data-theme="super-admin"] .sa-number-cyan  { color: #0e7490; font-weight: 400; font-family: 'Syne', sans-serif; }
   [data-theme="super-admin"] .sa-divider { border-color: var(--border); }
 
   [data-theme="super-admin"] .sa-card-orange  { border-color: #fdc8b4 !important; background: linear-gradient(155deg, #fff5f2 0%, #ffffff 55%) !important; }
@@ -3092,17 +3092,17 @@ body > .skiptranslate,
   [data-theme="super-admin"] .sa-progress-track { background: #f0f0f0; border-radius: 9999px; height: 8px; overflow: hidden; }
   [data-theme="super-admin"] .sa-progress-fill { background: linear-gradient(90deg, #f05a28, #ff7043); border-radius: 9999px; height: 100%; transition: width 600ms cubic-bezier(.22,.68,0,1.2); }
 
-  [data-theme="super-admin"] .sa-delta-up   { color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 7px; font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.5rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="super-admin"] .sa-delta-down { color: #9f1239; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 7px; font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.5rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-delta-up   { color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 7px; font-size: 0.72rem; font-weight: 400; padding: 0.15rem 0.5rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-delta-down { color: #9f1239; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 7px; font-size: 0.72rem; font-weight: 400; padding: 0.15rem 0.5rem; font-family: 'DM Sans', sans-serif; }
 
   [data-theme="super-admin"] .sa-avatar { border: 2.5px solid #f05a28; box-shadow: 0 0 0 3px rgba(240, 90, 40, 0.12); border-radius: 9999px; }
 
   [data-theme="super-admin"] .sa-terminal { background: #0f1729; border: 1px solid rgba(240, 90, 40, 0.20); border-radius: 14px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.8rem; color: #e8ecf5; padding: 1rem 1.25rem; line-height: 1.75; }
-  [data-theme="super-admin"] .sa-terminal .sa-cmd    { color: #ffa07a; font-weight: 700; }
+  [data-theme="super-admin"] .sa-terminal .sa-cmd    { color: #ffa07a; font-weight: 400; }
   [data-theme="super-admin"] .sa-terminal .sa-output { color: #5a6482; }
 
   [data-theme="super-admin"] .sa-empty { border: 2px dashed var(--border-strong); border-radius: 18px; background: var(--surface-muted); text-align: center; padding: 2.5rem 1.5rem; color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
-  [data-theme="super-admin"] .sa-tooltip { background: var(--sa-navy); border: 1px solid rgba(255, 255, 255, 0.10); color: #e8ecf5; border-radius: 8px; font-size: 0.75rem; font-weight: 500; padding: 0.35rem 0.7rem; box-shadow: 0 4px 22px rgba(15, 23, 41, 0.24); font-family: 'DM Sans', sans-serif; }
+  [data-theme="super-admin"] .sa-tooltip { background: var(--sa-navy); border: 1px solid rgba(255, 255, 255, 0.10); color: #e8ecf5; border-radius: 8px; font-size: 0.75rem; font-weight: 400; padding: 0.35rem 0.7rem; box-shadow: 0 4px 22px rgba(15, 23, 41, 0.24); font-family: 'DM Sans', sans-serif; }
 
   [data-theme="super-admin"] .sa-metric-orange::before { background: linear-gradient(180deg, #f05a28 0%, #ff7043 100%); }
   [data-theme="super-admin"] .sa-metric-sky::before    { background: linear-gradient(180deg, #3b82f6 0%, #60a5fa 100%); }
@@ -3112,17 +3112,17 @@ body > .skiptranslate,
   [data-theme="super-admin"] .sa-metric-navy::before   { background: linear-gradient(180deg, #0f1729 0%, #3d4f73 100%); }
 
   /* ── SCHOOL SPECIAL UTILITIES ── */
-  [data-theme="school"] .school-chip-math    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="school"] .school-chip-science { background: #ecfeff; border: 1px solid #a5f3fc; color: #155e75; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="school"] .school-chip-art     { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="school"] .school-chip-english { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="school"] .school-chip-history { background: #fdf4ff; border: 1px solid #e9d5ff; color: #6b21a8; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
-  [data-theme="school"] .school-chip-pe      { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="school"] .school-chip-math    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="school"] .school-chip-science { background: #ecfeff; border: 1px solid #a5f3fc; color: #155e75; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="school"] .school-chip-art     { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="school"] .school-chip-english { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="school"] .school-chip-history { background: #fdf4ff; border: 1px solid #e9d5ff; color: #6b21a8; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
+  [data-theme="school"] .school-chip-pe      { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; border-radius: 9999px; font-size: 0.72rem; font-weight: 400; padding: 0.2rem 0.75rem; font-family: 'DM Sans', sans-serif; }
 
-  [data-theme="school"] .school-grade-a { color: #14532d; background: #bbf7d0; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 800; padding: 0.15rem 0.55rem; }
-  [data-theme="school"] .school-grade-b { color: #1e3a5f; background: #bfdbfe; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 800; padding: 0.15rem 0.55rem; }
-  [data-theme="school"] .school-grade-c { color: #78350f; background: #fde68a; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 800; padding: 0.15rem 0.55rem; }
-  [data-theme="school"] .school-grade-f { color: #881337; background: #fecdd3; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 800; padding: 0.15rem 0.55rem; }
+  [data-theme="school"] .school-grade-a { color: #14532d; background: #bbf7d0; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 400; padding: 0.15rem 0.55rem; }
+  [data-theme="school"] .school-grade-b { color: #1e3a5f; background: #bfdbfe; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 400; padding: 0.15rem 0.55rem; }
+  [data-theme="school"] .school-grade-c { color: #78350f; background: #fde68a; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 400; padding: 0.15rem 0.55rem; }
+  [data-theme="school"] .school-grade-f { color: #881337; background: #fecdd3; border-radius: 9px; font-family: 'Syne', sans-serif; font-weight: 400; padding: 0.15rem 0.55rem; }
 
   [data-theme="school"] .school-highlight-strip { border-left: 4px solid #38a84e; background: linear-gradient(90deg, rgba(56, 168, 78, 0.08), transparent); border-radius: 0 12px 12px 0; padding: 0.65rem 1rem; }
 
@@ -3145,7 +3145,7 @@ body > .skiptranslate,
   [data-theme="school"] .school-notice-coral   { background: linear-gradient(135deg, rgba(255, 107, 107, 0.09), rgba(255, 107, 107, 0.04)); border: 1.5px solid rgba(255, 107, 107, 0.24); border-radius: 16px; padding: 0.9rem 1.15rem; }
 
   [data-theme="school"] .school-empty { border: 2px dashed var(--border-strong); border-radius: 22px; background: var(--surface-muted); text-align: center; padding: 2.5rem 1.5rem; color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
-  [data-theme="school"] .school-tooltip { background: #1a2e1c; color: #f0fdf4; border-radius: 9px; font-size: 0.75rem; font-weight: 600; padding: 0.35rem 0.75rem; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18); font-family: 'DM Sans', sans-serif; }
+  [data-theme="school"] .school-tooltip { background: #1a2e1c; color: #f0fdf4; border-radius: 9px; font-size: 0.75rem; font-weight: 400; padding: 0.35rem 0.75rem; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18); font-family: 'DM Sans', sans-serif; }
 
   /* ── FONT HEADINGS — UNIFIED ── */
   [data-theme="school"] h1,
@@ -3153,7 +3153,7 @@ body > .skiptranslate,
   [data-theme="school"] h3 {
     font-family: 'Syne', sans-serif;
     letter-spacing: -0.03em;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--text);
   }
 
@@ -3162,7 +3162,7 @@ body > .skiptranslate,
   [data-theme="super-admin"] h3 {
     font-family: 'Syne', sans-serif;
     letter-spacing: -0.03em;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--text);
   }
 
@@ -3171,7 +3171,7 @@ body > .skiptranslate,
   [data-theme="landing"] h3 {
     font-family: 'Lexend', 'Plus Jakarta Sans', sans-serif;
     letter-spacing: -0.04em;
-    font-weight: 800;
+    font-weight: 400;
     color: #eef2ff;
   }
 
@@ -3757,7 +3757,7 @@ body > .skiptranslate,
   line-height: 0.98;
   letter-spacing: -0.05em;
   color: #18311d;
-  font-weight: 800;
+  font-weight: 400;
   max-width: 13ch;
   text-wrap: balance;
   text-shadow: none;
@@ -3812,7 +3812,7 @@ body > .skiptranslate,
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 400;
   box-shadow: var(--shadow-soft);
 }
 
@@ -3836,7 +3836,7 @@ body > .skiptranslate,
   border-radius: var(--radius-btn);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.01em;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
 }
@@ -3905,7 +3905,7 @@ body > .skiptranslate,
   font-family: 'Syne', sans-serif;
   font-size: 1.9rem;
   line-height: 1;
-  font-weight: 800;
+  font-weight: 400;
   color: var(--text);
   letter-spacing: -0.04em;
 }
@@ -3917,7 +3917,7 @@ body > .skiptranslate,
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 [data-theme="landing"] .landing-home-preview {
@@ -3980,7 +3980,7 @@ body > .skiptranslate,
 [data-theme="landing"] .landing-home-section-eyebrow {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--primary-strong);
@@ -3993,7 +3993,7 @@ body > .skiptranslate,
   line-height: 1.1;
   letter-spacing: -0.04em;
   color: var(--text);
-  font-weight: 800;
+  font-weight: 400;
 }
 
 [data-theme="landing"] .landing-home-preview-pill {
@@ -4007,7 +4007,7 @@ body > .skiptranslate,
   border: 1px solid rgba(56, 168, 78, 0.16);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 [data-theme="landing"] .landing-home-preview-grid {
@@ -4033,7 +4033,7 @@ body > .skiptranslate,
   color: var(--primary-strong);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.02em;
 }
 
@@ -4096,7 +4096,7 @@ body > .skiptranslate,
 [data-theme="landing"] .landing-home-preview-panel-head h3 {
   font-family: 'Syne', sans-serif;
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: 400;
   color: var(--text);
 }
 
@@ -4190,7 +4190,7 @@ body > .skiptranslate,
   line-height: 1.05;
   letter-spacing: -0.04em;
   color: var(--text);
-  font-weight: 800;
+  font-weight: 400;
 }
 
 [data-theme="landing"] .landing-home-section-title span {
@@ -4281,7 +4281,7 @@ body > .skiptranslate,
 [data-theme="landing"] .landing-home-step-title {
   font-family: 'Syne', sans-serif;
   color: var(--text);
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: -0.03em;
 }
 
@@ -4484,7 +4484,7 @@ body > .skiptranslate,
   right: 1rem;
   font-family: 'Syne', sans-serif;
   font-size: 2.4rem;
-  font-weight: 800;
+  font-weight: 400;
   color: rgba(56, 168, 78, 0.10);
   letter-spacing: -0.06em;
 }
@@ -4533,7 +4533,7 @@ body > .skiptranslate,
   color: var(--primary-strong);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
@@ -4544,7 +4544,7 @@ body > .skiptranslate,
   line-height: 1.05;
   letter-spacing: -0.05em;
   color: var(--text);
-  font-weight: 800;
+  font-weight: 400;
   max-width: 16ch;
   margin: 0 auto;
 }

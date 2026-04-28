@@ -140,65 +140,100 @@ export const Login = () => {
             <style>{`
                 @media (max-width: 480px) {
                   form {
-                    padding: 24px 16px !important;
-                    width: 92% !important;
-                    max-width: 440px !important;
-                    min-height: 500px !important;
-                    gap: 16px !important;
-                    border-radius: 12px !important;
-                    margin: 10px auto !important;
-                    box-shadow: 4px 4px var(--main-color), 0 4px 12px rgba(0,0,0,0.1) !important;
+                    padding: 20px !important;
+                    width: 95vw !important;
+                    max-width: 320px !important;
+                    minHeight: 480px !important;
+                    gap: 12px !important;
+                    borderRadius: '10px !important;
+                    margin: '20px auto !important';
                   }
                   
                   form input {
-                    height: 54px !important;
-                    padding: 12px 16px !important;
-                    font-size: 16px !important;
-                    border-radius: 10px !important;
-                    border: 2px solid var(--main-color) !important;
-                    box-shadow: 4px 4px var(--main-color) !important;
+                    height: 45px !important;
+                    padding: 12px 15px !important;
+                    font-size: 15px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important;
                   }
                   
                   form input[type="password"] {
-                    padding-right: 50px !important;
+                    height: 45px !important;
+                    padding: 12px 15px !important;
+                    font-size: 15px !important;
+                    padding-right: 45px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important;
                   }
                   
-                  /* Specific selector for password toggle to avoid inheritance */
-                  form div[style*="position: relative"] button[type="button"] {
+                  form input[type="password"] + button {
                     position: absolute !important;
-                    right: 8px !important;
-                    top: 50% !important;
-                    transform: translateY(-50%) !important;
-                    font-size: 22px !important;
-                    padding: 8px !important;
+                    right: 12px !important;
+                    top: '50% !important;
+                    transform: 'translateY(-50%) !important;
+                    font-size: 18px !important;
+                    padding: 3px !important;
                     background: none !important;
                     border: none !important;
-                    box-shadow: none !important;
                     cursor: pointer !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    width: auto !important;
-                    height: auto !important;
-                    margin: 0 !important;
-                    z-index: 10 !important;
+                  }
+                  
+                  .form button[class*="oauthButton"] + div button span span span {
+                    font-size: 14px !important;
+                    font-weight: 600 !important;
+                  }
+                  
+                  .form button[class*="oauthButton"] + div button span span span + span {
+                    font-size: 12px !important;
+                    font-weight: 400 !important;
+                  }
+                  
+                  .form button[class*="oauthButton"] + div button span span {
+                    font-size: 10px !important;
+                    font-weight: 700 !important;
+                  }
+                  
+                  /* Make language options very small */
+                  .form button[class*="oauthButton"] + div button {
+                    padding: 4px 8px !important;
+                    font-size: 10px !important;
+                    min-height: 30px !important;
+                  }
+                  
+                  .form button[class*="oauthButton"] + div {
+                    min-width: 160px !important;
+                    max-width: 200px !important;
+                    font-size: 10px !important;
+                  }
+                  
+                  /* Make dropdown header smaller */
+                  .form button[class*="oauthButton"] + div > div {
+                    padding: 8px 12px !important;
+                  }
+                  
+                  .form button[class*="oauthButton"] + div > div p {
+                    font-size: 10px !important;
+                    margin-bottom: 2px !important;
+                  }
+                  
+                  .form button[class*="oauthButton"] + div > div p + p {
+                    font-size: 8px !important;
                   }
                   
                   form button[type="submit"] {
-                    height: 55px !important;
-                    font-size: 16px !important;
-                    margin-top: 16px !important;
-                    border-radius: 10px !important;
-                    border: 2px solid var(--main-color) !important;
-                    box-shadow: 6px 6px var(--main-color) !important;
-                  }
-                  
-                  /* Target the Back to Home button specifically by its position in the form */
-                  form > button[type="button"]:last-of-type {
                     height: 50px !important;
                     font-size: 15px !important;
-                    margin-top: 20px !important;
-                    border-radius: 10px !important;
+                    margin-top: 12px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important;
+                  }
+                  
+                  form button[type="button"]:last-child {
+                    height: 45px !important;
+                    font-size: 14px !important;
+                    margin-top: 18px !important;
+                    border-radius: '8px !important;
+                    border: '2px solid var(--main-color) !important;
                     border: 2px solid var(--main-color) !important;
                     box-shadow: 4px 4px var(--main-color) !important;
                     display: flex !important;
